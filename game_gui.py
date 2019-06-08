@@ -8,6 +8,7 @@ import tkinter as tk
 from tkinter import ttk
 import logging
 import itertools
+import collections
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -17,6 +18,7 @@ import requests
 from colormath.color_conversions import convert_color
 from colormath.color_objects import sRGBColor, XYZColor, HSLColor, CMYColor
 
+# Number of pixels in the LED strip
 PIXEL_COUNT = 32
 
 # -----------------------------------------------------------------------------
@@ -89,6 +91,8 @@ DISCRETE_OPS = [
     "Evens",
     "Odds",
     "Rainbow",
+    "Alt",
+    "Gradient",
 ]
 
 # Operations that vary
@@ -99,11 +103,11 @@ BUTTON_OPS = {
     "a": "Green",
     "b": "Red",
     "x": "Blue",
-    "y": "Yellow",
+    "y": "Orange",
     "lstick": "Bright",
     "rstick": "Dark",
-    "lb": "Orange",
-    "rb": "Indigo",
+    "lb": "Alt",
+    "rb": "Gradient",
     "start": "White",
     "logitech": "Copy",
     "back": "Black",
@@ -122,6 +126,7 @@ TRIGGER_OPS = {"lt": "RollL", "rt": "RollR"}
 # Delay between animation frames
 ANIMATION_DELAY = 0.05
 
+# Function called every frame to transform pixels
 ANIMATION_STEP = lambda x: x
 
 # -------------------------------------------------------------------------
@@ -385,13 +390,14 @@ stages = {
         "Rainbow",
         "One",
         "Evens",
-        "Odds"
+        "Odds",
     ],
     "hsl": ["Bright", "Dark", "Hue", "Light"],
 }
 
 
 def wheel(pos):
+    """Returns colors across a color wheel"""
     if pos < 85:
         return (pos * 3, 255 - pos * 3, 0)
     elif pos < 170:
@@ -402,39 +408,70 @@ def wheel(pos):
         return (0, pos * 3, 255 - pos * 3)
 
 
-def do_discrete_op(ctrl_name, op, on=True):
-    global base_pixels, shown_pixels
+# True if alterantive operation is enabled
+alt = False
 
-    if op == "Red":
-        sums[op][ctrl_name][:, 0] = 255 if on else 0
+# True if colors should be in a gradient instead of solid
+gradient = False
+
+
+def color_sum(op, ctrl_name, dim, on, value=255, alt_value=None):
+    """Fills pixel array for a solid color. Handles alt/gradient variations."""
+    global alt, gradient
+    if alt_value is None:
+        alt_value = -value
+
+    if gradient:
+        if not isinstance(dim, collections.Iterable):
+            dim = [dim]
+
+        # Fill color dimensions independently
+        for d in dim:
+            sums[op][ctrl_name][:, d] = (
+                np.linspace(0, value + 1, PIXEL_COUNT) if on else 0
+            )
+    else:
+        sums[op][ctrl_name][:, dim] = (alt_value if alt else value) if on else 0
+
+
+def do_discrete_op(ctrl_name, op, on=True):
+    global base_pixels, shown_pixels, alt, gradient, ANIMATION_STEP, ANIMATION_DELAY
+
+    if op == "Alt":
+        # Do alternatve operation
+        alt = on
+    elif op == "Gradient":
+        # Do color gradients
+        gradient = on
+    elif op == "Red":
+        color_sum(op, ctrl_name, 0, on)
     elif op == "Green":
-        sums[op][ctrl_name][:, 1] = 255 if on else 0
+        color_sum(op, ctrl_name, 1, on)
     elif op == "Blue":
-        sums[op][ctrl_name][:, 2] = 255 if on else 0
+        color_sum(op, ctrl_name, 2, on)
     elif op == "Yellow":
-        sums[op][ctrl_name][:, 0] = 255 if on else 0
-        sums[op][ctrl_name][:, 1] = 255 if on else 0
+        color_sum(op, ctrl_name, [0, 1], on)
     elif op == "Orange":
-        sums[op][ctrl_name][:, 0] = 255 if on else 0
-        sums[op][ctrl_name][:, 1] = 128 if on else 0
+        color_sum(op, ctrl_name, 0, on)
+        color_sum(op, ctrl_name, 1, on, 128)
     elif op == "Indigo":
-        sums[op][ctrl_name][:, 1] = 255 if on else 0
-        sums[op][ctrl_name][:, 2] = 255 if on else 0
+        color_sum(op, ctrl_name, [1, 2], on)
     elif op == "Violet":
-        sums[op][ctrl_name][:, 0] = 255 if on else 0
-        sums[op][ctrl_name][:, 2] = 255 if on else 0
+        color_sum(op, ctrl_name, [0, 2], on)
     elif op == "Bright":
-        sums[op][ctrl_name][:, 2] = 50 if on else 0
+        color_sum(op, ctrl_name, 2, on, 50, 100)
     elif op == "Dark":
-        sums[op][ctrl_name][:, 2] = 50 if on else 0
+        color_sum(op, ctrl_name, 2, on, -50, -100)
     elif op == "White":
-        sums[op][ctrl_name][:, :] = 255 if on else 0
+        color_sum(op, ctrl_name, [0, 1, 2], on, 255)
     elif op == "Black":
-        sums[op][ctrl_name][:, :] = -255 if on else 0
+        color_sum(op, ctrl_name, [0, 1, 2], on, -255)
     elif op == "Rainbow":
         rainbow_array = sums[op][ctrl_name]
         for i in range(PIXEL_COUNT):
             rainbow_array[i, :] = wheel(int(i * (256 / PIXEL_COUNT))) if on else 0
+            if alt:
+                rainbow_array[i, :] = np.roll(rainbow_array[i, :], shift=2)
     elif op == "One":
         sums[op][ctrl_name][:, :] = -255 if on else 0
         sums[op][ctrl_name][0, :] = 0
