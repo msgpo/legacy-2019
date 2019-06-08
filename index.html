@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/main.css">
+
+        <title>LEGACY MineTest</title>
+    </head>
+    <body>
+        <div class="d-flex flex-row">
+            <div class="d-flex flex-column text-center">
+                <div id="led-1" class="led">1</div>
+                <div id="led-2" class="led">2</div>
+                <div id="led-3" class="led">3</div>
+                <div id="led-4" class="led">4</div>
+                <div id="led-5" class="led">5</div>
+                <div id="led-6" class="led">6</div>
+                <div id="led-7" class="led">7</div>
+                <div id="led-8" class="led">8</div>
+                <div id="led-9" class="led">9</div>
+                <div id="led-10" class="led">10</div>
+                <div id="led-11" class="led">11</div>
+                <div id="led-12" class="led">12</div>
+                <div id="led-13" class="led">13</div>
+                <div id="led-14" class="led">14</div>
+                <div id="led-15" class="led">15</div>
+                <div id="led-16" class="led">16</div>
+            </div>
+            <div class="d-flex flex-column text-center">
+                <div id="led-17" class="led">17</div>
+                <div id="led-18" class="led">18</div>
+                <div id="led-19" class="led">19</div>
+                <div id="led-20" class="led">20</div>
+                <div id="led-21" class="led">21</div>
+                <div id="led-22" class="led">22</div>
+                <div id="led-23" class="led">23</div>
+                <div id="led-24" class="led">24</div>
+                <div id="led-25" class="led">25</div>
+                <div id="led-26" class="led">26</div>
+                <div id="led-27" class="led">27</div>
+                <div id="led-28" class="led">28</div>
+                <div id="led-29" class="led">29</div>
+                <div id="led-30" class="led">30</div>
+                <div id="led-31" class="led">31</div>
+                <div id="led-32" class="led">32</div>
+            </div>
+        </div>
+
+        <!-- Load Javascript libraries -->
+        <script src="/js/jquery-3.3.1.slim.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+         var websocket = null
+         var websocketURL = null
+         var retrySeconds = 5
+         var retryTimeoutID = 0
+         var colors = []
+
+         function init() {
+             websocketURL = 'ws://' + window.location.host + '/pixels'
+
+             for (var i = 0; i < 32; i++) {
+                 colors.push({ "i": i, "r": 0, "g": 0, "b": 0 })
+             }
+
+             setColors()
+         }
+
+         function setColors() {
+             colors.forEach(function(c, i) {
+                 var led = $('#led-' + (c.i + 1))
+                 led.css('background-color', 'rgb(' + c.r + ',' + c.g + ',' + c.b + ')')
+
+                 // http://stackoverflow.com/a/3943023/112731
+                 if (((c.r * 0.299) + (c.g * 0.587) + (c.b * 0.114)) > 186) {
+                     led.css('color', '#000')
+                 } else {
+                     led.css('color', '#FFF')
+                 }
+             })
+         }
+
+         function retryConnect() {
+             console.log('Disconnected. Retrying in ' + retrySeconds + ' seconds')
+             websocket = null
+             clearTimeout(retryTimeoutID)
+             retryTimeoutID = setTimeout(connect, retrySeconds * 1000)
+         }
+
+         function connect() {
+             console.log('Connecting to ' + websocketURL)
+             websocket = new WebSocket(websocketURL)
+
+             websocket.onclose = retryConnect
+             websocket.onerror = retryConnect
+
+             websocket.onopen = function() {
+                 console.log('Connected')
+             }
+
+             websocket.onmessage = function(wsEvent) {
+                 colors = JSON.parse(wsEvent.data)
+                 setColors()
+             }
+         }
+
+         $(function() {
+             init()
+             connect()
+         })
+        </script>
+    </body>
+</html>

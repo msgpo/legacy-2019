@@ -1,0 +1,8 @@
+adafruit-ws2801
+flask
+numpy
+requests
+pygame
+gevent
+etc/RPi.GPIO-0.6.5.tar.gz
+webcolors

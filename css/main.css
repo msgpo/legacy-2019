@@ -1,0 +1,6 @@
+.led {
+    padding: 10px;
+    border: 2px solid black;
+    flex-grow: 1;
+    font-size: 2em;
+}
