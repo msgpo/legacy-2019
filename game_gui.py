@@ -4,6 +4,7 @@ import sys
 import time
 import queue
 from queue import Queue
+import argparse
 import threading
 import tkinter as tk
 import tkinter.filedialog as filedialog
@@ -199,12 +200,12 @@ class Application(tk.Frame):
             )
 
             if file_name:
-                logging.debug(f"Loading {file_name}")
+                logging.debug("Loading %s" % file_name)
                 record_img = Image.open(file_name)
                 record_buffer = list(
                     reversed((np.swapaxes(np.array(record_img), 0, 1)).tolist())
                 )
-                logging.info(f"Playing back {len(record_buffer)} frame(s)")
+                logging.info("Playing back %s frame(s)" % len(record_buffer))
                 recording = False
                 playing = True
         except Exception as e:
@@ -221,7 +222,7 @@ class Application(tk.Frame):
             )
 
             if file_name:
-                logging.debug(f"Saving {file_name}")
+                logging.debug("Saving %s" % file_name)
                 record_array = np.hstack(record_buffer).reshape(
                     (PIXEL_COUNT, len(record_buffer), 3)
                 )
@@ -670,20 +671,48 @@ def apply_ops(pixels):
     return final_rgb.astype(np.uint8)
 
 
-def update_pixels(pixels):
-    # TODO: Use actual LEDs
-    pixels_json = [
-        [int(pixels[i, 0]), int(pixels[i, 1]), int(pixels[i, 2])]
-        for i in range(PIXEL_COUNT)
-    ]
+if args.no_pi:
+    # Use web server
+    def update_pixels(pixels):
+        pixels_json = [
+            [int(pixels[i, 0]), int(pixels[i, 1]), int(pixels[i, 2])]
+            for i in range(PIXEL_COUNT)
+        ]
 
-    requests.post("http://localhost:5000/pixels/rgb", json=pixels_json)
+        requests.post("http://localhost:5000/pixels/rgb", json=pixels_json)
+
+
+else:
+    import RPi.GPIO as GPIO
+    import Adafruit_WS2801 as WS2801
+    import Adafruit_GPIO.SPI as SPI
+
+    # Hardware address of LED strip (must enable SPI in raspi-config)
+    real_pixels = WS2801.WS2801Pixels(
+        PIXEL_COUNT, spi=SPI.SpiDev(spi_port, spi_device), gpio=GPIO
+    )
+
+    # Use actual LED strip
+    def update_pixels(pixels):
+        global real_pixels
+        for i in range(PIXEL_COUNT):
+            real_pixels.set_pixel_rgb(
+                i, int(pixels[i, 2]), int(pixels[i, 1]), int(pixels[i, 0])
+            )
+
+        real_pixels.show()
 
 
 # -----------------------------------------------------------------------------
 
 
 def main():
+    parser = argparse.ArgumentParser("server.py")
+    parser.add_argument("--no-pi", action="store_true", help="Disable LED strip on pi")
+
+    args = parser.parse_args()
+    logging.debug(args)
+
     root = tk.Tk()
     app = Application(master=root)
     app.master.title("LEGACY")

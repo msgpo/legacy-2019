@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+this_dir="$( cd "$(dirname "$0" )" && pwd )"
+script_name="$( basename "$0" )"
+"${this_dir}/run-script" "${script_name}.py" "$@"
