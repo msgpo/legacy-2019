@@ -25,9 +25,9 @@ from colormath.color_objects import (
     CMYColor,
     IPTColor,
 )
-from colormath.color_conversions import convert_color
 
-# logging.getLogger("colormath.color_conversions").setLevel(logging.WARN)
+logging.getLogger("colormath.color_conversions").setLevel(logging.WARN)
+from colormath.color_conversions import convert_color
 
 import webcolors
 
@@ -49,7 +49,7 @@ PIXEL_COUNT = 32
 if args.no_pi:
 
     class FakePixels:
-        def __init__(self, pixel_count=32):
+        def __init__(self, pixel_count=PIXEL_COUNT):
             self.pixel_count = pixel_count
             self.rgb = np.zeros(shape=(self.pixel_count, 3), dtype=np.uint8)
             self.rgb_show = np.zeros(shape=(self.pixel_count, 3), dtype=np.uint8)
@@ -92,7 +92,7 @@ else:
 
     # Hardware address of LED strip (must enable SPI in raspi-config)
     class RealPixels:
-        def __init__(self, pixel_count=32, spi_port=0, spi_device=0):
+        def __init__(self, pixel_count=PIXEL_COUNT, spi_port=0, spi_device=0):
             self.pixel_count = pixel_count
             self.rgb = np.zeros(shape=(self.pixel_count, 3), dtype=np.uint8)
             self.source_color = sRGBColor
@@ -139,7 +139,7 @@ pixels.show()
 # -----------------------------------------------------------------------------
 
 # Web server
-app = Flask("ws2801")
+app = Flask("legacy-2019")
 app.secret_key = str(uuid4())
 sockets = Sockets(app)
 
@@ -254,8 +254,8 @@ def api_pixels(channel=None):
 
         if channel == "raw":
             for i in range(PIXEL_COUNT):
-                i3 = i*3
-                r, g, b = data[i3:i3+3]
+                i3 = i * 3
+                r, g, b = data[i3 : i3 + 3]
                 pixels.set_pixel_rgb(i, b, g, r)
         else:
             for i, value in enumerate(data):
@@ -357,7 +357,7 @@ def api_color(color, index=None):
             show_pixels()
             gevent.sleep(delay)
 
-        pixels.rgb[:, ] = final_rgb
+        pixels.rgb[:,] = final_rgb
         show_pixels()
     else:
         start_rgb = np.array(pixels.rgb[index, :])

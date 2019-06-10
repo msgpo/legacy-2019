@@ -1,8 +1,11 @@
 adafruit-ws2801
 flask
+flask_sockets
 numpy
 requests
 pygame
 gevent
 etc/RPi.GPIO-0.6.5.tar.gz
+colormath
 webcolors
+pillow

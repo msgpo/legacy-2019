@@ -1,20 +1,26 @@
 #!/usr/bin/env python3
+import os
 import sys
 import time
 import queue
 from queue import Queue
 import threading
 import tkinter as tk
+import tkinter.filedialog as filedialog
 from tkinter import ttk
 import logging
 import itertools
 import collections
 
 logging.basicConfig(level=logging.DEBUG)
+logging.getLogger("urllib3.connectionpool").setLevel(logging.WARN)
+logging.getLogger("colormath.color_conversions").setLevel(logging.WARN)
 
 import numpy as np
 import pygame
 import requests
+from PIL import Image
+
 from colormath.color_conversions import convert_color
 from colormath.color_objects import sRGBColor, XYZColor, HSLColor, CMYColor
 
@@ -93,6 +99,7 @@ DISCRETE_OPS = [
     "Rainbow",
     "Alt",
     "Gradient",
+    "Record",
 ]
 
 # Operations that vary
@@ -109,7 +116,7 @@ BUTTON_OPS = {
     "lb": "Alt",
     "rb": "Copy",
     "start": "Gradient",
-    "logitech": "White",
+    "logitech": "Record",
     "back": "Black",
     "up": "One",
     "down": "Rainbow",
@@ -131,6 +138,11 @@ ANIMATION_STEP = lambda x: x
 
 # -------------------------------------------------------------------------
 
+# True if colors are being recorded to an image
+recording = False
+playing = False
+record_buffer = []
+
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -143,6 +155,18 @@ class Application(tk.Frame):
         self.master.after(100, self.process_queue)
 
     def create_widgets(self):
+        self.menubar = tk.Menu(self.master, tearoff=0)
+        self.menubar_bg = self.menubar["background"]
+
+        file_menu = tk.Menu(self.menubar)
+        file_menu.add_command(label="Open", command=self.file_open)
+        file_menu.add_command(label="Save", command=self.file_save)
+        file_menu.add_separator()
+        file_menu.add_command(label="Exit", command=self.quit)
+
+        self.menubar.add_cascade(label="File", menu=file_menu)
+        self.master.config(menu=self.menubar)
+
         self.bg_image = tk.PhotoImage(file="img/controller.png")
         self.bg_label = tk.Label(self, image=self.bg_image)
         self.bg_label.pack()
@@ -161,6 +185,49 @@ class Application(tk.Frame):
 
         for name, combo in list(self.combos.items()):
             self.combos[repr(combo)] = name
+
+    # -------------------------------------------------------------------------
+
+    def file_open(self):
+        global playing, record_buffer
+        try:
+            file_name = filedialog.askopenfilename(
+                parent=self,
+                initialdir=os.getcwd(),
+                title="Select an image",
+                filetypes=(("Image Files", "*.png *.jpg *.jpeg"), ("All Files", "*.*")),
+            )
+
+            if file_name:
+                logging.debug(f"Loading {file_name}")
+                record_img = Image.open(file_name)
+                record_buffer = list(
+                    reversed((np.swapaxes(np.array(record_img), 0, 1)).tolist())
+                )
+                logging.info(f"Playing back {len(record_buffer)} frame(s)")
+                recording = False
+                playing = True
+        except Exception as e:
+            logging.exception("file_save")
+
+    def file_save(self):
+        global record_buffer
+        try:
+            file_name = filedialog.asksaveasfilename(
+                parent=self,
+                initialdir=os.getcwd(),
+                title="Save image",
+                filetypes=(("Image Files", "*.png"), ("All Files", "*.*")),
+            )
+
+            if file_name:
+                logging.debug(f"Saving {file_name}")
+                record_array = np.hstack(record_buffer).reshape(
+                    (PIXEL_COUNT, len(record_buffer), 3)
+                )
+                Image.fromarray(record_array, mode="RGB").save(file_name)
+        except Exception as e:
+            logging.exception("file_save")
 
     # -------------------------------------------------------------------------
 
@@ -205,11 +272,24 @@ class Application(tk.Frame):
 
     def process_queue(self):
         """Process incoming events from Pygame thread"""
+        global recording, playing
         try:
             while True:
+                # Show recording status
+                if recording:
+                    self.master.title("LEGACY (Recording)")
+                    self.menubar["background"] = "red"
+                elif playing:
+                    self.master.title("LEGACY (Playing)")
+                    self.menubar["background"] = "green"
+                else:
+                    self.master.title("LEGACY")
+                    self.menubar["background"] = self.menubar_bg
+
                 # Throws queue.Empty when empty
                 event = self.queue.get_nowait()
 
+                # Process event
                 if event.type in [pygame.JOYBUTTONDOWN, pygame.JOYBUTTONUP]:
                     # Button up/down
                     combo_name = BUTTONS.get(event.button, None)
@@ -346,16 +426,27 @@ shown_pixels = np.zeros(shape=(PIXEL_COUNT, 3), dtype=np.uint8)
 
 
 def animation_run():
-    global base_pixels, shown_pixels, ANIMATION_STEP, ANIMATION_DELAY
+    global base_pixels, shown_pixels, ANIMATION_STEP, ANIMATION_DELAY, playing
 
     while True:
         try:
-            base_pixels = ANIMATION_STEP(base_pixels)
-            after_pixels = apply_ops(base_pixels)
+            if playing:
+                if len(record_buffer) > 0:
+                    after_pixels = np.array(record_buffer.pop(), dtype=np.uint8)
+                else:
+                    logging.info("Finished playback")
+                    playing = False
+
+            if not playing:
+                base_pixels = ANIMATION_STEP(base_pixels)
+                after_pixels = apply_ops(base_pixels)
 
             if not np.array_equal(after_pixels, shown_pixels):
                 shown_pixels = after_pixels
                 update_pixels(shown_pixels)
+
+            if recording:
+                record_buffer.append(shown_pixels)
         except Exception as e:
             logging.exception("animation_run")
 
@@ -435,7 +526,8 @@ def color_sum(op, ctrl_name, dim, on, value=255, alt_value=None):
 
 
 def do_discrete_op(ctrl_name, op, on=True):
-    global base_pixels, shown_pixels, alt, gradient, ANIMATION_STEP, ANIMATION_DELAY
+    """Perform discrete color transformations."""
+    global base_pixels, shown_pixels, alt, gradient, ANIMATION_STEP, ANIMATION_DELAY, recording
 
     if op == "Alt":
         # Do alternatve operation
@@ -488,9 +580,18 @@ def do_discrete_op(ctrl_name, op, on=True):
         for ctrl_arrays in sums.values():
             for ctrl_array in ctrl_arrays.values():
                 ctrl_array[:, :] = 0
+    elif op == "Record" and on:
+        recording = not recording
+        if recording:
+            playing = False
+            record_buffer = []
+            logging.info("Started recording")
+        else:
+            logging.info("Stopped recording")
 
 
 def do_cont_op(ctrl_name, op, value):
+    """Perform continuous color transformations."""
     global ANIMATION_STEP, ANIMATION_DELAY
 
     if op == "Light":
@@ -570,6 +671,7 @@ def apply_ops(pixels):
 
 
 def update_pixels(pixels):
+    # TODO: Use actual LEDs
     pixels_json = [
         [int(pixels[i, 0]), int(pixels[i, 1]), int(pixels[i, 2])]
         for i in range(PIXEL_COUNT)
@@ -582,8 +684,6 @@ def update_pixels(pixels):
 
 
 def main():
-    logging.getLogger("urllib3.connectionpool").setLevel(logging.WARN)
-
     root = tk.Tk()
     app = Application(master=root)
     app.master.title("LEGACY")

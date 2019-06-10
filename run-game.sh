@@ -11,4 +11,4 @@ fi
 
 source "${venv}/bin/activate"
 
-python3 server.py "$@"
+python3 game_gui.py "$@"
