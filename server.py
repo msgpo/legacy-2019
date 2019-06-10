@@ -252,46 +252,52 @@ def api_pixels(channel=None):
         if not isinstance(data, list):
             data = [int(data)] * PIXEL_COUNT
 
-        for i, value in enumerate(data):
-            b, g, r = pixels.get_pixel_rgb(i)
+        if channel == "raw":
+            for i in range(PIXEL_COUNT):
+                i3 = i*3
+                r, g, b = data[i3:i3+3]
+                pixels.set_pixel_rgb(i, b, g, r)
+        else:
+            for i, value in enumerate(data):
+                b, g, r = pixels.get_pixel_rgb(i)
 
-            if channel:
-                if channel == "off":
-                    # off
-                    r, g, b = 0, 0, 0
-                elif channel == "on":
-                    # off
-                    r, g, b = 255, 255, 255
+                if channel:
+                    if channel == "off":
+                        # off
+                        r, g, b = 0, 0, 0
+                    elif channel == "on":
+                        # off
+                        r, g, b = 255, 255, 255
+                    elif isinstance(value, list):
+                        # Set r, g, b
+                        r_idx = channel.find("r")
+                        if r_idx >= 0:
+                            r = value[r_idx]
+
+                        g_idx = channel.find("g")
+                        if g_idx >= 0:
+                            g = value[g_idx]
+
+                        b_idx = channel.find("b")
+                        if b_idx >= 0:
+                            b = value[b_idx]
+                    else:
+                        # Set r, g, b
+                        if "r" in channel:
+                            r = value
+
+                        if "g" in channel:
+                            g = value
+
+                        if "b" in channel:
+                            b = value
                 elif isinstance(value, list):
-                    # Set r, g, b
-                    r_idx = channel.find("r")
-                    if r_idx >= 0:
-                        r = value[r_idx]
-
-                    g_idx = channel.find("g")
-                    if g_idx >= 0:
-                        g = value[g_idx]
-
-                    b_idx = channel.find("b")
-                    if b_idx >= 0:
-                        b = value[b_idx]
+                    r, g, b, = value
                 else:
-                    # Set r, g, b
-                    if "r" in channel:
-                        r = value
+                    r, g, b, = value.get("r", 0), value.get("g", 0), value.get("b", 0)
+                    i = value.get("i", i)
 
-                    if "g" in channel:
-                        g = value
-
-                    if "b" in channel:
-                        b = value
-            elif isinstance(value, list):
-                r, g, b, = value
-            else:
-                r, g, b, = value.get("r", 0), value.get("g", 0), value.get("b", 0)
-                i = value.get("i", i)
-
-            pixels.set_pixel_rgb(i, b, g, r)
+                pixels.set_pixel_rgb(i, b, g, r)
 
         show_pixels()
         return "OK"
