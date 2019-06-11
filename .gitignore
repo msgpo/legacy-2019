@@ -1,2 +1,4 @@
+auto/
 .venv/
 __pycache__/
+README.tex

@@ -32,11 +32,11 @@ Freedom to run, copy, distribute, study, change, and improve.
 - No cost, no ads, no subscriptions
 - Used by hobbiests and professionals
 
-[[./img/app_icons.png]]
+** Truly Free System
 
-** TODO File System
-
-** TODO Terminal
+- No made-up restrictions about what you can install
+- No fees for writing/distributing your own software
+- Ways around "digital rights management" (DRM)
 
 * The Raspberry Pi
 
@@ -101,8 +101,37 @@ You have a *Raspberry Pi 3 Model B+*
 *** Fun Stuff
 
 - Play free games (MineCraft, SuperTux, TuxCart)
+- Emulate retro game systems (NES, SNES, Genesis, PS1, N64)
 
 [[./img/retropie_both.jpg]]
+
+* Raspbian
+
+Linux operating system made for the Raspberry Pi.
+
+[[./img/app_icons.png]]
+
+
+** File System
+
+Linux does not have "drives" like Windows. Everything starts at the *root* (a forward slash: =/=) and goes down into different directories (folders).
+
+- Your files should go in =/home/pi= because your user name is =pi=
+- When you plug in a phone or USB drive, it will show up under =/media=
+- You should not edit/delete files outside of =/home/pi= unless you're sure what you're doing
+
+[[./img/apps/file_manager_screenshot.jpg]]
+
+** Terminal
+
+You can interact with your Raspberry Pi directly with text commands. Type a command and press ENTER to execute it.
+
+- The terminal always has a "current" directory (=/home/pi= by default)
+- Use =cd <NAME>= to change to directory =<NAME>=
+- Put quotes (="=) around anything with spaces
+
+[[./img/apps/terminal_screenshot.jpg]]
+
 
 * WS2801 RGB LED Strip
 
@@ -149,40 +178,151 @@ led-on red 0.5 white 0.5 blue 0.5 black
 
 ** Basic Colors
 
-- Press and release A, B, X, Y to show green, red, blue, and orange
-- Press A + B to see green + red
-- Hold Y (orange), then hold left shoulder (Alt) and press B (red) to see orange - red
-- Hold A (green) and move left stick left/right to change brightness and up/down to change hue
+- Press and release [[./img/buttons/A.png]] [[./img/buttons/B.png]] [[./img/buttons/X.png]] [[./img/buttons/Y.png]] to show green, red, blue, and orange
+- Press [[./img/buttons/A.png]] + [[./img/buttons/B.png]] to see green + red
+- Hold [[./img/buttons/Y.png]] (orange), then hold [[./img/buttons/LB.png]] (Alt) and press [[./img/buttons/B.png]] (red) to see orange - red (minus)
+- Hold [[./img/buttons/A.png]] (green) and move [[./img/buttons/Left_Stick.png]] left/right to change brightness and [[./img/buttons/Left_Stick.png]] up/down to change hue
 
 ** Copying Colors
 
-- Hold X (blue) and press the right shoulder button (Copy)
-- Let go of X and blue is now in "memory"
-- Press B (red) to see blue + red
-- Hold Back (black) button and press right shoulder button (Copy)
+- Hold [[./img/buttons/X.png]] (blue) and press the [[./img/buttons/RB.png]] (Copy)
+- Let go of [[./img/buttons/X.png]] and blue is now in "memory"
+- Press [[./img/buttons/B.png]] (red) to see blue + red
+- Hold [[./img/buttons/Back_Alt.png]] (black) button and press [[./img/buttons/RB.png]] (Copy)
 - LED strip is back to off (black)
 
 ** Patterns and Gradients
 
-- Hold Down button on d-pad to see rainbow colors
-- While holding Down, move right stick to change red (left/right) and blue (up/down)
-- Hold Start button (Gradient) and press A (green) to see a green gradient
-- Hold Up/Left/Right on d-pad and a color to only set the first LED, even LEDs, or odd LEDs
+- Hold [[./img/buttons/Dpad_Down.png]] on d-pad to see rainbow colors
+- While holding [[./img/buttons/Dpad_Down.png]], move [[./img/buttons/Right_Stick.png]] to change red (left/right) and blue (up/down)
+- Hold [[./img/buttons/Start_Alt.png]] button (Gradient) and press [[./img/buttons/A.png]] (green) to see a green gradient
+- Hold [[./img/buttons/Dpad_Up.png]] or [[./img/buttons/Dpad_Left.png]] or [[./img/buttons/Dpad_Right.png]] on d-pad and a color to only set the first LED, even LEDs, or odd LEDs
 
 ** Animations
 
-- Hold Down button on d-pad (Rainbow) and press right shoulder button (Copy)
-- Hold left or right trigger on the back to cycle the colors
-- Hold Back (black) button and press right shoulder button (Copy) to reset
-- Hold Up button on d-pad, hold B (red), and press right shoulder button (Copy)
-- Hold left or right trigger to move single LED around the strip
+- Hold [[./img/buttons/Dpad_Down.png]] on d-pad (Rainbow) and press [[./img/buttons/RB.png]] (Copy)
+- Hold [[./img/buttons/LT.png]] or [[./img/buttons/RT.png]] to cycle the colors
+- Hold [[./img/buttons/Back_Alt.png]] (black) button and press [[./img/buttons/RB.png]] (Copy) to reset
+- Hold [[./img/buttons/Dpad_Up.png]], then hold [[./img/buttons/B.png]] (red), and then press [[./img/buttons/RB.png]] (Copy)
+- Hold [[./img/buttons/LT.png]] or [[./img/buttons/RT.png]] to move single LED around the strip
 
 ** Recording and Playback
 
-- Press the center Logitech button to start recording
+- Press [[./img/buttons/Logitech.png]] to start recording
 - Change LED colors however you want
-- Press the Logitech button to stop recording
-- Click File -> Save to save the "movie" as an image
-- Click File -> Open to open an image and play it back
+- Press [[./img/buttons/Logitech.png]] to stop recording
+- Click File -> Save in the menu to save the "movie" as an image
+- Click File -> Open in the menu to open an image and play it back
+
+* Gimp
+
+Similar to Adobe Photoshop. Pixel-based image editor with layers and effects.
+
+[[./img/icons/128x128/gimp.png]] 
+
+[[./img/apps/gimp_screenshot.jpg]] 
+
+** Concepts
+
+*** Pixels
+
+- Grid of color cells, all the same size
+- More pixels = more detail (higher resolution)
+
+*** Transparency (Opacity/Alpha)
+
+- RGB + Alpha = RGBA
+- Use Layer -> Transparency -> Add Alpha Channel
+- Use Delete key or eraser tool
+
+*** Layers
+
+- Drawn from top to bottom
+- Upper layers hide lower layers, except transparent regions
+- Opacity = Transparency
+- Try different Modes with more than one layer
+
+*** Saving vs. Exporting
+
+- Save uses Gimp format with layers, etc. for editing later
+- Export makes a PNG or JPEG for sharing
+
+** Screenshots
+
+- File -> Create -> Screenshot
+
+* Inkscape
+
+Similar to Adobe Illustrator. Vector-based image editor with layers and shapes.
+
+[[./img/icons/128x128/inkscape.png]] 
+
+[[./img/apps/inkscape_screenshot.jpg]] 
+
+* MuseScore
+
+Similar to Finale. Music score editor for MIDI files.
+
+- Sample songs (MIDI) are in =/home/pi/Music=
+- Handbook is available in =/home/pi/Documents=
+
+[[./img/icons/128x128/mscore.png]] 
+
+[[./img/apps/musescore_screenshot.jpg]] 
+
+** Concepts
+
+*** Notes and Sound
+
+- Middle "C" = 440 Hz
+- Notes are labeled A-G, with sharps (♯) and flats (♭)
+- Higher notes (up on staff, right on keyboard) are higher pitched
+- Note fill and stem determine duration
+
+[[./img/music_notes.png]] 
+
+*** Exporting to WAV
+
+- File -> Export and choose Wave Audio
+- Play with VLC
+- Edit with Audacity
+- Import into Pitivi
+
+* Audacity
+
+Edit audio (WAV) files with tracks and effects.
+
+[[./img/icons/128x128/audacity.png]] 
+
+* VLC
+
+Plays and converts audio and video files.
+
+[[./img/icons/128x128/vlc.png]] 
+
+* Pitivi
+
+Create videos from media clips with tracks and effects.
+
+[[./img/icons/128x128/pitivi.png]] 
+
+* Synfig Studio
+
+Create 2-D animations with layers and keyframes.
+
+[[./img/icons/128x128/synfig.png]] 
 
 * Sonic Pi
+
+Create music tracks with samples, loops, and code.
+
+[[./img/icons/128x128/sonic-pi.png]] 
+
+
+* Project
+
+[[./img/app_workflow.png]]
+
+# Local variables:
+# eval: (add-hook 'after-save-hook 'org-html-export-to-html t t)
+# end:

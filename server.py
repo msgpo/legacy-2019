@@ -253,9 +253,13 @@ def api_pixels(channel=None):
             data = [int(data)] * PIXEL_COUNT
 
         if channel == "raw":
+            bgr = request.args.get("bgr", "false").lower().strip() == "true"
             for i in range(PIXEL_COUNT):
                 i3 = i * 3
-                r, g, b = data[i3 : i3 + 3]
+                if bgr:
+                    b, g, r = data[i3 : i3 + 3]
+                else:
+                    r, g, b = data[i3 : i3 + 3]
                 pixels.set_pixel_rgb(i, b, g, r)
         else:
             for i, value in enumerate(data):

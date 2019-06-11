@@ -1,19 +1,13 @@
 # Welcome to Sonic Pi v3.0.1
 require 'thread'
-
-#require 'spi'
-require 'httparty'
 require 'json'
 
-def doze(seconds)
-  Kernel.sleep seconds
-end
-
-
-module Game
+module Gamepad
   @button_callback = lambda {|b|}
   @axis_callback = lambda {|a, v|}
   @hat_callback = lambda {|v|}
+
+  @running = false
 
   def self.on_button(&block)
     @button_callback = block
@@ -38,61 +32,63 @@ module Game
   def self.hat_callback
     return @hat_callback
   end
-end
 
-def start_game
-  in_thread do
-    require 'sdl'
-    SDL::init(SDL::INIT_JOYSTICK)
-    joy = SDL::Joystick.open(0)
+  def self.run
+    if not @running
+      @running = true
+      Thread.new do
+        require 'sdl'
+        SDL::init(SDL::INIT_EVERYTHING)
+        joy = SDL::Joystick.open(0)
 
-    loop do
-      while event = SDL::Event2::poll
-        case event
-        when SDL::Event2::JoyButtonDown
-          Game.button_callback.call(event.button)
-        when SDL::Event2::JoyAxis
-          Game.axis_callback.call(event.axis, event.value)
-        when SDL::Event2::JoyHat
-          Game.hat_callback.call(event.value)
+        loop do
+          event = SDL::Event2.poll
+          case event
+          when SDL::Event2::JoyButtonDown
+            Gamepad.button_callback.call(event.button)
+          when SDL::Event2::JoyAxis
+            Gamepad.axis_callback.call(event.axis, event.value)
+          when SDL::Event2::JoyHat
+            Gamepad.hat_callback.call(event.value)
+          end
+
+          sleep 0.05
         end
       end
-
-      sleep 0.05
     end
   end
 end
 
-Game.on_button do |button|
-  button_name = case button
-  when 0; "a"
-  else; button.to_s
-  end
-
-  cue "button_#{button_name}".to_sym
+def use_gamepad
+  Gamepad.run
 end
 
-start_game
-
 module Pixels
+  @pixel_queue = Queue.new
   @pixel_count = 32
   @pixels = [0] * 3 * @pixel_count
+  @running = false
 
-  #@spi = SPI.new(device: '/dev/spidev0.0')
-  #@spi.speed = 1000000
+  @spi = nil
 
   @semaphore = Mutex.new
 
-  def self.doze(seconds)
-    Kernel.sleep seconds
+  def self.use_spi
+    require 'spi'
+    @spi = SPI.new(device: '/dev/spidev0.0')
+    @spi.speed = 1000000
   end
 
   def self.show
     @semaphore.synchronize do
-      #@spi.xfer(txdata: @pixels)
-      HTTParty.post("http://localhost:5000/pixels/raw",
-                    body: @pixels.to_json,
-                    headers: { "Content-Type": "application/json" })
+      if @spi
+        @spi.xfer(txdata: @pixels)
+      else
+        require 'httparty'
+        HTTParty.post("http://localhost:5000/pixels/raw?bgr=true",
+                      body: @pixels.to_json,
+                      headers: { "Content-Type": "application/json" })
+      end
     end
   end
 
@@ -128,6 +124,7 @@ module Pixels
     thread = Thread.new do
       start = Array.new(@pixels)
       increment = [0] * 3 * @pixel_count
+      steps = steps.to_i
       steps_f = steps.to_f
       @pixel_count.times do |i|
         i3 = i * 3
@@ -147,7 +144,7 @@ module Pixels
         end
 
         show
-        doze delay
+        sleep delay
       end
 
       all!(r, g, b)
@@ -163,12 +160,13 @@ module Pixels
     thread = Thread.new do
       start = Array.new(@pixels)
       increment = [0] * 3 * @pixel_count
+      steps = steps.to_i
       steps_f = steps.to_f
       @pixel_count.times do |i|
         i3 = i * 3
-        increment[i3] = (rgb[i3] - @pixels[i3]) / steps_f
+        increment[i3] = (rgb[i3+2] - @pixels[i3]) / steps_f
         increment[i3+1] = (rgb[i3+1] - @pixels[i3+1]) / steps_f
-        increment[i3+2] = (rgb[i3+2] - @pixels[i3+2]) / steps_f
+        increment[i3+2] = (rgb[i3] - @pixels[i3+2]) / steps_f
       end
 
       steps.times do |t|
@@ -182,7 +180,7 @@ module Pixels
         end
 
         show
-        doze delay
+        sleep delay
       end
 
       @semaphore.synchronize do
@@ -205,6 +203,7 @@ module Pixels
   def self.blend_one(i, r, g, b, steps: 10, delay: 0.05, wait: true)
     thread = Thread.new do
       start = @pixels[i..(i+3)]
+      steps = steps.to_i
       steps_f = steps.to_f
       increment = [0] * 3
 
@@ -221,7 +220,7 @@ module Pixels
         end
 
         show
-        doze delay
+        sleep delay
       end
 
       one!(i, r, g, b)
@@ -235,6 +234,7 @@ module Pixels
 
   def self.spin(steps: 10, delay: 0.05, wait: true)
     thread = Thread.new do
+      steps = steps.to_i
       steps.times do |t|
         @semaphore.synchronize do
           b1 = @pixels[0]
@@ -256,7 +256,7 @@ module Pixels
         end
 
         show
-        doze delay
+        sleep delay
       end
     end
 
@@ -290,14 +290,44 @@ module Pixels
     return rgb
   end
 
+  def self.doze(seconds, *args)
+    sleep seconds
+  end
+
+  def self.run
+    if not @running
+      @running = true
+      Thread.new do
+        loop do
+          # name, positional args, keyword args
+          task = @pixel_queue.pop()
+          Pixels.send(task[0], *task[1], **task[2])
+        end
+      end
+    end
+  end
+
+  def self.enqueue(task)
+    @pixel_queue.push(task)
+  end
+
+end
+
+def use_leds
+  Pixels.run
+  Pixels.use_spi
+end
+
+def doze(seconds)
+  Pixels.enqueue([:doze, [seconds], {}])
 end
 
 def rgb (r, g, b, i: nil, time: 1)
   steps = time / 0.05
   if i then
-    Pixels.blend_one(i, r, g, b, steps: steps, wait: true)
+    Pixels.enqueue([:blend_one, [i, r, g, b], { steps: steps, wait: true }])
   else
-    Pixels.blend_all(r, g, b, steps: steps, wait: true)
+    Pixels.enqueue([:blend_all, [r, g, b], { steps: steps, wait: true }])
   end
 end
 
@@ -348,89 +378,10 @@ end
 
 def rainbow (time: 1)
   steps = time / 0.05
-  Pixels.blend_rgb(Pixels.rainbow, steps: steps, wait: true)
+  Pixels.enqueue([:blend_rgb, [Pixels.rainbow], { steps: steps, wait: true }])
 end
 
 def spinner (time: 1)
   steps = time / 0.05
-  Pixels.spin(steps: steps, wait: true)
+  Pixels.enqueue([:spin, [], { steps: steps, wait: true }])
 end
-
-in_thread do
-  sync :button_a
-  rainbow
-  spinner 10
-end
-
-count = 1
-live_loop :piano do
-  with_fx :reverb, room: 1 do
-    sample :bd_boom, amp: 20, rate: 1
-  end
-  sleep 0.5
-  with_fx :echo, mix: 0.3, phase: 0.25 do
-    with_synth :piano do
-      if count < 3 then
-        play :C3
-        sleep 0.25
-        play :A4
-        sleep 0.25
-        play :B4
-      else
-        play :C3
-        sleep 0.25
-        play :C4
-        sleep 0.25
-        play :A4
-      end
-    end
-  end
-
-  sleep 2
-  count += 1
-
-  if count > 4 then
-    count = 1
-    cue :other
-  end
-end
-
-live_loop :drum do
-  sample :drum_heavy_kick
-  sleep 1
-end
-
-live_loop :rain do
-  with_fx :level, amp: 0.25 do
-    with_fx :distortion do
-      with_fx :echo, mix: rand(), phase: rand() do
-        sample :ambi_swoosh
-      end
-    end
-  end
-
-  sleep 0.25 + rand()
-end
-
-live_loop :other1 do
-  sync :other
-  sync :other
-  with_fx :gverb do
-    sample :bass_drop_c
-  end
-end
-
-rainbow
-live_loop :lights do
-  spinner time: 0.1
-  sleep 0.1
-end
-
-#blue i: 0, time: 2
-#spinner time: 5
-#strobe 25
-
-#with_fx :echo, mix: 0.3, phase: 0.25 do
-#  synth :piano
-#  play 50
-#end
