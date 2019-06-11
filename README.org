@@ -139,5 +139,50 @@ led-on red 0.5 white 0.5 blue 0.5 black
 
 [[./img/logitech_f310.jpg]]
 
+* LED Strip Gamepad Test
+
+- Lets you manipuate the LED strip colors with your gamepad
+- Teaches how computers make colors from red, green, and blue
+- Can record and playback "movies"
+
+[[./img/game_gui.png]]
+
+** Basic Colors
+
+- Press and release A, B, X, Y to show green, red, blue, and orange
+- Press A + B to see green + red
+- Hold Y (orange), then hold left shoulder (Alt) and press B (red) to see orange - red
+- Hold A (green) and move left stick left/right to change brightness and up/down to change hue
+
+** Copying Colors
+
+- Hold X (blue) and press the right shoulder button (Copy)
+- Let go of X and blue is now in "memory"
+- Press B (red) to see blue + red
+- Hold Back (black) button and press right shoulder button (Copy)
+- LED strip is back to off (black)
+
+** Patterns and Gradients
+
+- Hold Down button on d-pad to see rainbow colors
+- While holding Down, move right stick to change red (left/right) and blue (up/down)
+- Hold Start button (Gradient) and press A (green) to see a green gradient
+- Hold Up/Left/Right on d-pad and a color to only set the first LED, even LEDs, or odd LEDs
+
+** Animations
+
+- Hold Down button on d-pad (Rainbow) and press right shoulder button (Copy)
+- Hold left or right trigger on the back to cycle the colors
+- Hold Back (black) button and press right shoulder button (Copy) to reset
+- Hold Up button on d-pad, hold B (red), and press right shoulder button (Copy)
+- Hold left or right trigger to move single LED around the strip
+
+** Recording and Playback
+
+- Press the center Logitech button to start recording
+- Change LED colors however you want
+- Press the Logitech button to stop recording
+- Click File -> Save to save the "movie" as an image
+- Click File -> Open to open an image and play it back
 
 * Sonic Pi

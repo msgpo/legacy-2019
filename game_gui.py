@@ -30,6 +30,14 @@ PIXEL_COUNT = 32
 
 # -----------------------------------------------------------------------------
 
+parser = argparse.ArgumentParser("game_gui.py")
+parser.add_argument("--no-pi", action="store_true", help="Disable LED strip on pi")
+
+args = parser.parse_args()
+logging.debug(args)
+
+# -----------------------------------------------------------------------------
+
 # Index to button name
 BUTTONS = {
     0: "a",
@@ -707,12 +715,6 @@ else:
 
 
 def main():
-    parser = argparse.ArgumentParser("server.py")
-    parser.add_argument("--no-pi", action="store_true", help="Disable LED strip on pi")
-
-    args = parser.parse_args()
-    logging.debug(args)
-
     root = tk.Tk()
     app = Application(master=root)
     app.master.title("LEGACY")
