@@ -1,0 +1,1238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2019-06-12 Wed 16:35 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Your Open Source LEGACY</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Michael Hansen" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Your Open Source LEGACY</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org27ec4a4">Free Software</a>
+<ul>
+<li><a href="#orgfe98a4f">Free as in Beer</a></li>
+<li><a href="#org793e1b5">Free as in Speech</a></li>
+</ul>
+</li>
+<li><a href="#org381dd48">The Linux Operating System</a>
+<ul>
+<li><a href="#orgff9cb05">Truly Free Software</a></li>
+<li><a href="#orgff68514">Truly Free System</a></li>
+</ul>
+</li>
+<li><a href="#org723853f">The Raspberry Pi</a>
+<ul>
+<li><a href="#org7edfca4">Hardware</a></li>
+<li><a href="#org4144617">General Purpose Input/Ouput (GPIO)</a></li>
+<li><a href="#org9159fc8">Things a Pi Can Do</a>
+<ul>
+<li><a href="#org8440413">Typical Stuff</a></li>
+<li><a href="#orgbdc0dfc">Digital Art</a></li>
+<li><a href="#org75017a4">Electronics</a></li>
+<li><a href="#org3d6c75a">Server</a></li>
+<li><a href="#org38070e6">Fun Stuff</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org916985d">Raspbian</a>
+<ul>
+<li><a href="#org9710596">File System</a></li>
+<li><a href="#orgc75ca6f">Terminal</a></li>
+<li><a href="#org76392f8">Add/Remove Software</a></li>
+</ul>
+</li>
+<li><a href="#orgdd4c22c">Gimp</a>
+<ul>
+<li><a href="#orgf12102c">Concepts</a>
+<ul>
+<li><a href="#orgb24a1c1">Pixels</a></li>
+<li><a href="#orgfffd6e0">Transparency (Opacity/Alpha)</a></li>
+<li><a href="#org7c025e4">Layers</a></li>
+<li><a href="#org485fbf7">Saving vs. Exporting</a></li>
+</ul>
+</li>
+<li><a href="#orgb7677f3">Screenshots</a></li>
+</ul>
+</li>
+<li><a href="#org7cc98ad">Inkscape</a>
+<ul>
+<li><a href="#org2e777ab">Concepts</a>
+<ul>
+<li><a href="#org004607a">Vector Graphics (SVG)</a></li>
+<li><a href="#org45b7ed9">Layers and Groups</a></li>
+<li><a href="#org06090e2">Dots Per Inch (DPI)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org0ee257a">MuseScore</a>
+<ul>
+<li><a href="#orgb8472ec">Concepts</a>
+<ul>
+<li><a href="#org7542a01">Notes and Sound</a></li>
+<li><a href="#org1314d2f">Exporting to WAV</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org93ed054">Audacity</a>
+<ul>
+<li><a href="#org060d2da">Concepts</a>
+<ul>
+<li><a href="#org077deb2">Sound Waves</a></li>
+<li><a href="#orgb5f5130">Stereo vs. Mono</a></li>
+<li><a href="#orge5083bb">Tracks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orga0f47cc">VLC</a>
+<ul>
+<li><a href="#orgdbdb468">Concepts</a>
+<ul>
+<li><a href="#orgbe1a724">File Formats</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org5c5b1b7">Synfig Studio</a>
+<ul>
+<li><a href="#org8202f5a">Concepts</a>
+<ul>
+<li><a href="#org569da1a">Keyframes</a></li>
+<li><a href="#orgfc49454">Joints and Skeletal Models</a></li>
+<li><a href="#orgc15d9ce"><span class="todo TODO">TODO</span> Rendering</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgb0f143a">Pitivi</a>
+<ul>
+<li><a href="#org3fa33e2">Concepts</a>
+<ul>
+<li><a href="#org7841f64"><span class="todo TODO">TODO</span> Video and Audio Tracks</a></li>
+<li><a href="#org7b2196c"><span class="todo TODO">TODO</span> Video/Audio Effects</a></li>
+<li><a href="#orgf7ac815"><span class="todo TODO">TODO</span> Rendering</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org089a91c">Sonic Pi</a>
+<ul>
+<li><a href="#org1106012">Concepts</a>
+<ul>
+<li><a href="#org25f942a"><span class="todo TODO">TODO</span> Music as a Program</a></li>
+<li><a href="#orgd876627"><span class="todo TODO">TODO</span> Threading</a></li>
+<li><a href="#orgd3b7291"><span class="todo TODO">TODO</span> Samples, Synthesizers, and Effects</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org3c5d452">WS2801 RGB LED Strip</a>
+<ul>
+<li><a href="#org8218cf7">Connecting the Hardware</a></li>
+<li><a href="#orga97968f">Testing the Software</a></li>
+</ul>
+</li>
+<li><a href="#orgdf05516">Logitech F310 Gamepad</a></li>
+<li><a href="#org246409b">LED Strip Gamepad Test</a>
+<ul>
+<li><a href="#orgcbf6d33">Basic Colors</a></li>
+<li><a href="#org9807e43">Copying Colors</a></li>
+<li><a href="#org4405f61">Patterns and Gradients</a></li>
+<li><a href="#org474081f">Animations</a></li>
+<li><a href="#org4734fe9">Recording and Playback</a></li>
+</ul>
+</li>
+<li><a href="#orgd419994">Making Your Own Movie</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org27ec4a4" class="outline-2">
+<h2 id="org27ec4a4">Free Software</h2>
+<div class="outline-text-2" id="text-org27ec4a4">
+<blockquote>
+<p>
+"To use free software is to make a political and ethical choice asserting the
+right to learn, and share what we learn with others. Free software has become
+the foundation of a learning society where we share our knowledge in a way that
+others can build upon and enjoy." - Free Software Foundation
+</p>
+</blockquote>
+</div>
+
+<div id="outline-container-orgfe98a4f" class="outline-3">
+<h3 id="orgfe98a4f">Free as in Beer</h3>
+<div class="outline-text-3" id="text-orgfe98a4f">
+<p>
+Free of charge, but may be incomplete or come with strings attached.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org793e1b5" class="outline-3">
+<h3 id="org793e1b5">Free as in Speech</h3>
+<div class="outline-text-3" id="text-org793e1b5">
+<p>
+Freedom to run, copy, distribute, study, change, and improve.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org381dd48" class="outline-2">
+<h2 id="org381dd48">The Linux Operating System</h2>
+<div class="outline-text-2" id="text-org381dd48">
+<ul class="org-ul">
+<li>Created by Linus Torvalds in 1991</li>
+<li>Completely open source and freely available</li>
+<li>Behind Android, Chromebook, Google/Amazon/Facebook/Microsoft/Apple servers</li>
+</ul>
+</div>
+
+<div id="outline-container-orgff9cb05" class="outline-3">
+<h3 id="orgff9cb05">Truly Free Software</h3>
+<div class="outline-text-3" id="text-orgff9cb05">
+<ul class="org-ul">
+<li>Installed from an app "store"</li>
+<li>No cost, no ads, no subscriptions</li>
+<li>Used by hobbiests and professionals</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgff68514" class="outline-3">
+<h3 id="orgff68514">Truly Free System</h3>
+<div class="outline-text-3" id="text-orgff68514">
+<ul class="org-ul">
+<li>No made-up restrictions about what you can install</li>
+<li>No fees for writing/distributing your own software</li>
+<li>Ways around "digital rights management" (DRM)</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org723853f" class="outline-2">
+<h2 id="org723853f">The Raspberry Pi</h2>
+<div class="outline-text-2" id="text-org723853f">
+<ul class="org-ul">
+<li>Single Board Computer (SBC)</li>
+<li>About $35 w/o memory card, power supply, etc.</li>
+<li>17 different models/versions</li>
+</ul>
+
+<p>
+You have a <b>Raspberry Pi 3 Model B+</b>
+</p>
+
+
+<div class="figure">
+<p><img src="./img/raspberry_pi.jpg" alt="raspberry_pi.jpg" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7edfca4" class="outline-3">
+<h3 id="org7edfca4">Hardware</h3>
+<div class="outline-text-3" id="text-org7edfca4">
+<ul class="org-ul">
+<li>Quad-core 1.4 Ghz CPU</li>
+<li>1 GB of RAM</li>
+<li>Power from USB micro</li>
+<li>32 GB storage (SD card)</li>
+<li>HDMI out to TV/monitor</li>
+<li>WiFi (internet) and Bluetooth (phone)</li>
+<li>2 USB ports (keyboard/mouse/gamepad)</li>
+<li>Network port (ethernet)</li>
+<li>Heaphone port</li>
+<li>Display/camera connectors</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4144617" class="outline-3">
+<h3 id="org4144617">General Purpose Input/Ouput (GPIO)</h3>
+<div class="outline-text-3" id="text-org4144617">
+<ul class="org-ul">
+<li>Lets you connect basic electronics <b>directly</b> to a computer</li>
+<li>Lights, sensors, motors</li>
+<li>Use standard programming languages (Python, Javascript, etc.)</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="./img/raspberry_pi_gpio.jpg" alt="raspberry_pi_gpio.jpg" />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org9159fc8" class="outline-3">
+<h3 id="org9159fc8">Things a Pi Can Do</h3>
+<div class="outline-text-3" id="text-org9159fc8">
+</div>
+<div id="outline-container-org8440413" class="outline-4">
+<h4 id="org8440413">Typical Stuff</h4>
+<div class="outline-text-4" id="text-org8440413">
+<ul class="org-ul">
+<li>Browse the internet (Firefox)</li>
+<li>Play videos/music (VLC)</li>
+<li>Edit documents, spreadsheets, etc. (LibreOffice)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbdc0dfc" class="outline-4">
+<h4 id="orgbdc0dfc">Digital Art</h4>
+<div class="outline-text-4" id="text-orgbdc0dfc">
+<ul class="org-ul">
+<li>Create and edit music/video (Audacity, MuseScore, Pitivi)</li>
+<li>Create and edit images (Gimp, Inkscape)</li>
+<li>Capture audio/video (Audacity, recordMyDesktop)</li>
+<li>Connect to musical instruments (MIDI/USB)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org75017a4" class="outline-4">
+<h4 id="org75017a4">Electronics</h4>
+<div class="outline-text-4" id="text-org75017a4">
+<ul class="org-ul">
+<li>Control lights, robots, machinery</li>
+<li>Record temperature, humidity, motion</li>
+<li>Record video/audio (Pi Camera, Microphone)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3d6c75a" class="outline-4">
+<h4 id="org3d6c75a">Server</h4>
+<div class="outline-text-4" id="text-org3d6c75a">
+<ul class="org-ul">
+<li>Home automation (<a href="https:www.home-assistant.io">Home Assistant</a>)</li>
+<li>Home theater (Kodi)</li>
+<li>Personal web site (Apache)</li>
+<li>Ad-blocking (PiHole)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org38070e6" class="outline-4">
+<h4 id="org38070e6">Fun Stuff</h4>
+<div class="outline-text-4" id="text-org38070e6">
+<ul class="org-ul">
+<li>Play free games (MineCraft, SuperTux, TuxCart)</li>
+<li>Emulate retro game systems (NES, SNES, Genesis, PS1, N64)</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="./img/retropie_both.jpg" alt="retropie_both.jpg" />
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org916985d" class="outline-2">
+<h2 id="org916985d">Raspbian</h2>
+<div class="outline-text-2" id="text-org916985d">
+<p>
+Linux operating system version (distribution) made for the Raspberry Pi.
+</p>
+
+
+<div class="figure">
+<p><img src="./img/app_icons.png" alt="app_icons.png" />
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org9710596" class="outline-3">
+<h3 id="org9710596">File System</h3>
+<div class="outline-text-3" id="text-org9710596">
+<p>
+Linux does not have "drives" like Windows. Everything starts at the <b>root</b> (a forward slash: <code>/</code>) and goes down into different directories (folders).
+</p>
+
+<ul class="org-ul">
+<li>Your files should go in <code>/home/pi</code> because your user name is <code>pi</code></li>
+<li>When you plug in a phone or USB drive, it will show up under <code>/media</code></li>
+<li>You should not edit/delete files outside of <code>/home/pi</code> unless you're sure what you're doing</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="./img/apps/file_manager_screenshot.jpg" alt="file_manager_screenshot.jpg" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc75ca6f" class="outline-3">
+<h3 id="orgc75ca6f">Terminal</h3>
+<div class="outline-text-3" id="text-orgc75ca6f">
+<p>
+You can interact with your Raspberry Pi directly with text commands. Type a command and press ENTER to execute it.
+</p>
+
+<ul class="org-ul">
+<li>The terminal always has a "current" directory (<code>/home/pi</code> by default)</li>
+<li>Use <code>cd &lt;NAME&gt;</code> to change to directory <code>&lt;NAME&gt;</code></li>
+<li>Put quotes (<code>"</code>) around anything with spaces</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="./img/apps/terminal_screenshot.jpg" alt="terminal_screenshot.jpg" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org76392f8" class="outline-3">
+<h3 id="org76392f8">Add/Remove Software</h3>
+<div class="outline-text-3" id="text-org76392f8">
+<p>
+Thousands of software packages are available for free (no ads, etc.) from the internet. Go to Preferences -&gt; Add/Remove Software.
+</p>
+
+
+<div class="figure">
+<p><img src="./img/apps/software_manager_screenshot.jpg" alt="software_manager_screenshot.jpg" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgdd4c22c" class="outline-2">
+<h2 id="orgdd4c22c">Gimp</h2>
+<div class="outline-text-2" id="text-orgdd4c22c">
+<p>
+Similar to Adobe Photoshop. Pixel-based image editor with layers and effects.
+</p>
+
+
+<div class="figure">
+<p><img src="./img/icons/128x128/gimp.png" alt="gimp.png" /> 
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/apps/gimp_screenshot.jpg" alt="gimp_screenshot.jpg" /> 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf12102c" class="outline-3">
+<h3 id="orgf12102c">Concepts</h3>
+<div class="outline-text-3" id="text-orgf12102c">
+</div>
+<div id="outline-container-orgb24a1c1" class="outline-4">
+<h4 id="orgb24a1c1">Pixels</h4>
+<div class="outline-text-4" id="text-orgb24a1c1">
+<ul class="org-ul">
+<li>Grid of color cells, all the same size</li>
+<li>More pixels = more detail (higher resolution)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgfffd6e0" class="outline-4">
+<h4 id="orgfffd6e0">Transparency (Opacity/Alpha)</h4>
+<div class="outline-text-4" id="text-orgfffd6e0">
+<ul class="org-ul">
+<li>RGB + Alpha = RGBA</li>
+<li>Use Layer -&gt; Transparency -&gt; Add Alpha Channel</li>
+<li>Use Delete key or eraser tool</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org7c025e4" class="outline-4">
+<h4 id="org7c025e4">Layers</h4>
+<div class="outline-text-4" id="text-org7c025e4">
+<ul class="org-ul">
+<li>Drawn from top to bottom</li>
+<li>Upper layers hide lower layers, except transparent regions</li>
+<li>Opacity = Transparency</li>
+<li>Try different Modes with more than one layer</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org485fbf7" class="outline-4">
+<h4 id="org485fbf7">Saving vs. Exporting</h4>
+<div class="outline-text-4" id="text-org485fbf7">
+<ul class="org-ul">
+<li>Save uses Gimp format with layers, etc. for editing later</li>
+<li>Export makes a PNG or JPEG for sharing</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb7677f3" class="outline-3">
+<h3 id="orgb7677f3">Screenshots</h3>
+<div class="outline-text-3" id="text-orgb7677f3">
+<ul class="org-ul">
+<li>File -&gt; Create -&gt; Screenshot</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7cc98ad" class="outline-2">
+<h2 id="org7cc98ad">Inkscape</h2>
+<div class="outline-text-2" id="text-org7cc98ad">
+<p>
+Similar to Adobe Illustrator. Vector-based image editor with layers and shapes.
+</p>
+
+
+<div class="figure">
+<p><img src="./img/icons/128x128/inkscape.png" alt="inkscape.png" /> 
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/apps/inkscape_screenshot.jpg" alt="inkscape_screenshot.jpg" /> 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2e777ab" class="outline-3">
+<h3 id="org2e777ab">Concepts</h3>
+<div class="outline-text-3" id="text-org2e777ab">
+</div>
+<div id="outline-container-org004607a" class="outline-4">
+<h4 id="org004607a">Vector Graphics (SVG)</h4>
+<div class="outline-text-4" id="text-org004607a">
+<ul class="org-ul">
+<li>Describes geometric shapes, not a pixel grid</li>
+<li>Can be scaled to arbitrary sizes without pixelation</li>
+<li>Path = points connected by (maybe curvy) lines</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org45b7ed9" class="outline-4">
+<h4 id="org45b7ed9">Layers and Groups</h4>
+<div class="outline-text-4" id="text-org45b7ed9">
+<ul class="org-ul">
+<li>Layers are drawn from top to bottom</li>
+<li>Upper layers hide lower layers, except empty regions</li>
+<li>Shape groups move and change colors together</li>
+<li>Use Object -&gt; Group and Object -&gt; Ungroup</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org06090e2" class="outline-4">
+<h4 id="org06090e2">Dots Per Inch (DPI)</h4>
+<div class="outline-text-4" id="text-org06090e2">
+<ul class="org-ul">
+<li>Resolution (size) of exported pixel grid image</li>
+<li>Higher = better picture, bigger file</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0ee257a" class="outline-2">
+<h2 id="org0ee257a">MuseScore</h2>
+<div class="outline-text-2" id="text-org0ee257a">
+<p>
+Similar to Finale. Music score editor for MIDI files.
+</p>
+
+<ul class="org-ul">
+<li>Sample songs (MIDI) are in <code>/home/pi/Music</code></li>
+<li>Handbook is available in <code>/home/pi/Documents</code></li>
+</ul>
+
+
+<div class="figure">
+<p><img src="./img/icons/128x128/mscore.png" alt="mscore.png" /> 
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/apps/musescore_screenshot.jpg" alt="musescore_screenshot.jpg" /> 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb8472ec" class="outline-3">
+<h3 id="orgb8472ec">Concepts</h3>
+<div class="outline-text-3" id="text-orgb8472ec">
+</div>
+<div id="outline-container-org7542a01" class="outline-4">
+<h4 id="org7542a01">Notes and Sound</h4>
+<div class="outline-text-4" id="text-org7542a01">
+<ul class="org-ul">
+<li>Middle "A" = 440 Hz</li>
+<li>Notes are labeled A-G, with sharps (♯) and flats (♭)</li>
+<li>Higher notes (up on staff, right on keyboard) are higher pitched</li>
+<li>Note fill and stem determine duration</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="./img/music_notes.png" alt="music_notes.png" /> 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1314d2f" class="outline-4">
+<h4 id="org1314d2f">Exporting to WAV</h4>
+<div class="outline-text-4" id="text-org1314d2f">
+<ul class="org-ul">
+<li>File -&gt; Export and choose Wave Audio</li>
+<li>Play with VLC</li>
+<li>Edit with Audacity</li>
+<li>Import into Pitivi</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org93ed054" class="outline-2">
+<h2 id="org93ed054">Audacity</h2>
+<div class="outline-text-2" id="text-org93ed054">
+<p>
+Edit audio (WAV) files with tracks and effects.
+</p>
+
+
+<div class="figure">
+<p><img src="./img/icons/128x128/audacity.png" alt="audacity.png" /> 
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/apps/audacity_screenshot.jpg" alt="audacity_screenshot.jpg" /> 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org060d2da" class="outline-3">
+<h3 id="org060d2da">Concepts</h3>
+<div class="outline-text-3" id="text-org060d2da">
+</div>
+<div id="outline-container-org077deb2" class="outline-4">
+<h4 id="org077deb2">Sound Waves</h4>
+<div class="outline-text-4" id="text-org077deb2">
+<ul class="org-ul">
+<li>All sound is air bumping into air, bumping into ears</li>
+<li>Frequency = pitch</li>
+<li>Amplitude = volume</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb5f5130" class="outline-4">
+<h4 id="orgb5f5130">Stereo vs. Mono</h4>
+<div class="outline-text-4" id="text-orgb5f5130">
+<ul class="org-ul">
+<li>Stereo = different sounds per ear</li>
+<li>Mono = same sound in both ears</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge5083bb" class="outline-4">
+<h4 id="orge5083bb">Tracks</h4>
+<div class="outline-text-4" id="text-orge5083bb">
+<ul class="org-ul">
+<li>Layers of sound over time</li>
+<li>Combined tracks = final song/sample/etc.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga0f47cc" class="outline-2">
+<h2 id="orga0f47cc">VLC</h2>
+<div class="outline-text-2" id="text-orga0f47cc">
+<p>
+Plays and converts audio and video files.
+</p>
+
+
+<div class="figure">
+<p><img src="./img/icons/128x128/vlc.png" alt="vlc.png" /> 
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/apps/vlc_screenshot.jpg" alt="vlc_screenshot.jpg" /> 
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgdbdb468" class="outline-3">
+<h3 id="orgdbdb468">Concepts</h3>
+<div class="outline-text-3" id="text-orgdbdb468">
+</div>
+<div id="outline-container-orgbe1a724" class="outline-4">
+<h4 id="orgbe1a724">File Formats</h4>
+<div class="outline-text-4" id="text-orgbe1a724">
+<ul class="org-ul">
+<li>Movie = video track + audio track(s) + subtitle track(s)</li>
+<li>Song = audio track(s) + lyric track(s)</li>
+<li>Use Media -&gt; Convert/Save to change format or extract audio/video</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5c5b1b7" class="outline-2">
+<h2 id="org5c5b1b7">Synfig Studio</h2>
+<div class="outline-text-2" id="text-org5c5b1b7">
+<p>
+Create 2-D animations with layers and keyframes.
+</p>
+
+
+<div class="figure">
+<p><img src="./img/icons/128x128/synfig.png" alt="synfig.png" /> 
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/apps/synfig_screenshot.jpg" alt="synfig_screenshot.jpg" /> 
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org8202f5a" class="outline-3">
+<h3 id="org8202f5a">Concepts</h3>
+<div class="outline-text-3" id="text-org8202f5a">
+</div>
+<div id="outline-container-org569da1a" class="outline-4">
+<h4 id="org569da1a">Keyframes</h4>
+<div class="outline-text-4" id="text-org569da1a">
+<ul class="org-ul">
+<li>Critical moments in an animation</li>
+<li>Blending occurs <b>between</b> keyframes</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgfc49454" class="outline-4">
+<h4 id="orgfc49454">Joints and Skeletal Models</h4>
+<div class="outline-text-4" id="text-orgfc49454">
+<ul class="org-ul">
+<li>Models can have "bones" to constrain movement</li>
+<li>Makes animating easier</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc15d9ce" class="outline-4">
+<h4 id="orgc15d9ce"><span class="todo TODO">TODO</span> Rendering</h4>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb0f143a" class="outline-2">
+<h2 id="orgb0f143a">Pitivi</h2>
+<div class="outline-text-2" id="text-orgb0f143a">
+<p>
+Create videos from media clips with tracks and effects.
+</p>
+
+
+<div class="figure">
+<p><img src="./img/icons/128x128/pitivi.png" alt="pitivi.png" /> 
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/apps/pitivi_screenshot.jpg" alt="pitivi_screenshot.jpg" /> 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3fa33e2" class="outline-3">
+<h3 id="org3fa33e2">Concepts</h3>
+<div class="outline-text-3" id="text-org3fa33e2">
+</div>
+<div id="outline-container-org7841f64" class="outline-4">
+<h4 id="org7841f64"><span class="todo TODO">TODO</span> Video and Audio Tracks</h4>
+</div>
+
+<div id="outline-container-org7b2196c" class="outline-4">
+<h4 id="org7b2196c"><span class="todo TODO">TODO</span> Video/Audio Effects</h4>
+<div class="outline-text-4" id="text-org7b2196c">
+<ul class="org-ul">
+<li>Uses keyframes</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf7ac815" class="outline-4">
+<h4 id="orgf7ac815"><span class="todo TODO">TODO</span> Rendering</h4>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org089a91c" class="outline-2">
+<h2 id="org089a91c">Sonic Pi</h2>
+<div class="outline-text-2" id="text-org089a91c">
+<p>
+Create music tracks with samples, loops, and code.
+</p>
+
+
+<div class="figure">
+<p><img src="./img/icons/128x128/sonic-pi.png" alt="sonic-pi.png" /> 
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/apps/sonic_pi_screenshot.jpg" alt="sonic_pi_screenshot.jpg" /> 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1106012" class="outline-3">
+<h3 id="org1106012">Concepts</h3>
+<div class="outline-text-3" id="text-org1106012">
+</div>
+<div id="outline-container-org25f942a" class="outline-4">
+<h4 id="org25f942a"><span class="todo TODO">TODO</span> Music as a Program</h4>
+</div>
+
+<div id="outline-container-orgd876627" class="outline-4">
+<h4 id="orgd876627"><span class="todo TODO">TODO</span> Threading</h4>
+</div>
+
+<div id="outline-container-orgd3b7291" class="outline-4">
+<h4 id="orgd3b7291"><span class="todo TODO">TODO</span> Samples, Synthesizers, and Effects</h4>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3c5d452" class="outline-2">
+<h2 id="org3c5d452">WS2801 RGB LED Strip</h2>
+<div class="outline-text-2" id="text-org3c5d452">
+<ul class="org-ul">
+<li>32 Red/Green/Blue (RGB) Light Emitting Diodes (LEDs)</li>
+<li>All LEDs can be controlled independently</li>
+<li>Connects directly to Pi</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="./img/led_strip_circle.png" alt="led_strip_circle.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8218cf7" class="outline-3">
+<h3 id="org8218cf7">Connecting the Hardware</h3>
+<div class="outline-text-3" id="text-org8218cf7">
+<ul class="org-ul">
+<li>Make sure the LED strip and power supply are unplugged</li>
+<li>Attach the LED strip (male connector) to the Pi and 12-volt adapter</li>
+<li>Connect the 12-volt power supply to the 12-volt adapter</li>
+<li>Connect the 12-volt power supply to the wall</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="./img/led_strip_diagram.png" alt="led_strip_diagram.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga97968f" class="outline-3">
+<h3 id="orga97968f">Testing the Software</h3>
+<div class="outline-text-3" id="text-orga97968f">
+<ul class="org-ul">
+<li>Use the <code>led-on</code> and <code>led-off</code> test programs in the <code>bin</code> directory</li>
+</ul>
+
+<pre class="example">
+led-on red 0.5 white 0.5 blue 0.5 black
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdf05516" class="outline-2">
+<h2 id="orgdf05516">Logitech F310 Gamepad</h2>
+<div class="outline-text-2" id="text-orgdf05516">
+<ul class="org-ul">
+<li>10 buttons, d-pad</li>
+<li>Dual analog sticks</li>
+<li>Dual analog triggers</li>
+<li>No force feedback</li>
+<li>USB connection</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="./img/logitech_f310.jpg" alt="logitech_f310.jpg" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org246409b" class="outline-2">
+<h2 id="org246409b">LED Strip Gamepad Test</h2>
+<div class="outline-text-2" id="text-org246409b">
+<ul class="org-ul">
+<li>Lets you manipuate the LED strip colors with your gamepad</li>
+<li>Teaches how computers make colors from red, green, and blue</li>
+<li>Can record and playback "movies"</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="./img/game_gui.png" alt="game_gui.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcbf6d33" class="outline-3">
+<h3 id="orgcbf6d33">Basic Colors</h3>
+<div class="outline-text-3" id="text-orgcbf6d33">
+<ul class="org-ul">
+<li>Press and release <img src="./img/buttons/A.png" alt="A.png" /> <img src="./img/buttons/B.png" alt="B.png" /> <img src="./img/buttons/X.png" alt="X.png" /> <img src="./img/buttons/Y.png" alt="Y.png" /> to show green, red, blue, and orange</li>
+<li>Press <img src="./img/buttons/A.png" alt="A.png" /> + <img src="./img/buttons/B.png" alt="B.png" /> to see green + red</li>
+<li>Hold <img src="./img/buttons/Y.png" alt="Y.png" /> (orange), then hold <img src="./img/buttons/LB.png" alt="LB.png" /> (Alt) and press <img src="./img/buttons/B.png" alt="B.png" /> (red) to see orange - red (minus)</li>
+<li>Hold <img src="./img/buttons/A.png" alt="A.png" /> (green) and move <img src="./img/buttons/Left_Stick.png" alt="Left_Stick.png" /> left/right to change brightness and <img src="./img/buttons/Left_Stick.png" alt="Left_Stick.png" /> up/down to change hue</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9807e43" class="outline-3">
+<h3 id="org9807e43">Copying Colors</h3>
+<div class="outline-text-3" id="text-org9807e43">
+<ul class="org-ul">
+<li>Hold <img src="./img/buttons/X.png" alt="X.png" /> (blue) and press the <img src="./img/buttons/RB.png" alt="RB.png" /> (Copy)</li>
+<li>Let go of <img src="./img/buttons/X.png" alt="X.png" /> and blue is now in "memory"</li>
+<li>Press <img src="./img/buttons/B.png" alt="B.png" /> (red) to see blue + red</li>
+<li>Hold <img src="./img/buttons/Back_Alt.png" alt="Back_Alt.png" /> (black) button and press <img src="./img/buttons/RB.png" alt="RB.png" /> (Copy)</li>
+<li>LED strip is back to off (black)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4405f61" class="outline-3">
+<h3 id="org4405f61">Patterns and Gradients</h3>
+<div class="outline-text-3" id="text-org4405f61">
+<ul class="org-ul">
+<li>Hold <img src="./img/buttons/Dpad_Down.png" alt="Dpad_Down.png" /> on d-pad to see rainbow colors</li>
+<li>While holding <img src="./img/buttons/Dpad_Down.png" alt="Dpad_Down.png" />, move <img src="./img/buttons/Right_Stick.png" alt="Right_Stick.png" /> to change red (left/right) and blue (up/down)</li>
+<li>Hold <img src="./img/buttons/Start_Alt.png" alt="Start_Alt.png" /> button (Gradient) and press <img src="./img/buttons/A.png" alt="A.png" /> (green) to see a green gradient</li>
+<li>Hold <img src="./img/buttons/Dpad_Up.png" alt="Dpad_Up.png" /> or <img src="./img/buttons/Dpad_Left.png" alt="Dpad_Left.png" /> or <img src="./img/buttons/Dpad_Right.png" alt="Dpad_Right.png" /> on d-pad and a color to only set the first LED, even LEDs, or odd LEDs</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org474081f" class="outline-3">
+<h3 id="org474081f">Animations</h3>
+<div class="outline-text-3" id="text-org474081f">
+<ul class="org-ul">
+<li>Hold <img src="./img/buttons/Dpad_Down.png" alt="Dpad_Down.png" /> on d-pad (Rainbow) and press <img src="./img/buttons/RB.png" alt="RB.png" /> (Copy)</li>
+<li>Hold <img src="./img/buttons/LT.png" alt="LT.png" /> or <img src="./img/buttons/RT.png" alt="RT.png" /> to cycle the colors</li>
+<li>Hold <img src="./img/buttons/Back_Alt.png" alt="Back_Alt.png" /> (black) button and press <img src="./img/buttons/RB.png" alt="RB.png" /> (Copy) to reset</li>
+<li>Hold <img src="./img/buttons/Dpad_Up.png" alt="Dpad_Up.png" />, then hold <img src="./img/buttons/B.png" alt="B.png" /> (red), and then press <img src="./img/buttons/RB.png" alt="RB.png" /> (Copy)</li>
+<li>Hold <img src="./img/buttons/LT.png" alt="LT.png" /> or <img src="./img/buttons/RT.png" alt="RT.png" /> to move single LED around the strip</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4734fe9" class="outline-3">
+<h3 id="org4734fe9">Recording and Playback</h3>
+<div class="outline-text-3" id="text-org4734fe9">
+<ul class="org-ul">
+<li>Press <img src="./img/buttons/Logitech.png" alt="Logitech.png" /> to start recording</li>
+<li>Change LED colors however you want</li>
+<li>Press <img src="./img/buttons/Logitech.png" alt="Logitech.png" /> to stop recording</li>
+<li>Click File -&gt; Save in the menu to save the "movie" as an image</li>
+<li>Click File -&gt; Open in the menu to open an image and play it back</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd419994" class="outline-2">
+<h2 id="orgd419994">Making Your Own Movie</h2>
+<div class="outline-text-2" id="text-orgd419994">
+<ul class="org-ul">
+<li>Create images in Gimp or Inkscape</li>
+<li>Create music in MuseScore or Sonic Pi</li>
+<li>Use Synfig or Pitivi to create a movie</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="./img/app_workflow.png" alt="app_workflow.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2019-06-10</p>
+<p class="author">Author: Michael Hansen</p>
+<p class="date">Created: 2019-06-12 Wed 16:35</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

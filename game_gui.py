@@ -97,6 +97,7 @@ DISCRETE_OPS = [
     "Blue",
     "Indigo",
     "Violet",
+    "Pink",
     "Bright",
     "Dark",
     "White",
@@ -485,6 +486,7 @@ stages = {
         "Orange",
         "Indigo",
         "Violet",
+        "Pink",
         "White",
         "Black",
         "Rainbow",
@@ -559,6 +561,9 @@ def do_discrete_op(ctrl_name, op, on=True):
         color_sum(op, ctrl_name, [1, 2], on)
     elif op == "Violet":
         color_sum(op, ctrl_name, [0, 2], on)
+    elif op == "Violet":
+        color_sum(op, ctrl_name, 0, on)
+        color_sum(op, ctrl_name, 2, on, 128)
     elif op == "Bright":
         color_sum(op, ctrl_name, 2, on, 50, 100)
     elif op == "Dark":
@@ -696,9 +701,7 @@ else:
     import Adafruit_GPIO.SPI as SPI
 
     # Hardware address of LED strip (must enable SPI in raspi-config)
-    real_pixels = WS2801.WS2801Pixels(
-        PIXEL_COUNT, spi=SPI.SpiDev(spi_port, spi_device), gpio=GPIO
-    )
+    real_pixels = WS2801.WS2801Pixels(PIXEL_COUNT, spi=SPI.SpiDev(0, 0), gpio=GPIO)
 
     # Use actual LED strip
     def update_pixels(pixels):

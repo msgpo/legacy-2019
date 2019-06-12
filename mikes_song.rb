@@ -1,5 +1,11 @@
-count = 1
+# Author: Michael Hansen
+# Date: 2019 June 12
 
+require '/home/pi/Legacy/legacy.rb'
+use_leds
+black time: 0
+
+count = 1
 live_loop :piano do
   with_fx :reverb, room: 1 do
     sample :bd_boom, amp: 20, rate: 1
@@ -37,30 +43,52 @@ live_loop :drum1 do
   sleep 1
 end
 
-live_loop :rain do
-  with_fx :level, amp: 0.25 do
-    with_fx :distortion do
-      with_fx :echo, mix: rand(), phase: rand() do
-        sample :ambi_swoosh
-      end
+in_thread do
+  4.times do |i|
+    t = 1
+    if i == 0 then
+      t = 2
     end
-  end
 
-  sleep 0.25 + rand()
-end
+    t.times do
+      sync :bass
+    end
 
-live_loop :bass do
-  2.times do
-    sync :bass
-  end
+    with_fx :gverb, amp: (i+1) do
+      sample :bass_drop_c
+    end
 
-  with_fx :gverb do
-    sample :bass_drop_c
+    case i
+    when 0; red
+    when 1; green
+    when 2; blue
+    when 3; rainbow
+    end
+
+    sleep 1
+    black
+    sleep 1
   end
 end
 
 6.times do
   sync :bass
+end
+
+live_loop :colors do
+  5.times do
+    colors = [:red, :orange, :green, :blue, :indigo, :violet, :pink]
+    color_names = []
+    32.times do |i|
+      color_names.append(colors.choose)
+    end
+
+    blend color_names
+    sleep 1
+  end
+
+  spinner time: 2
+  sleep 3
 end
 
 use_synth :tb303

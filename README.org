@@ -107,7 +107,7 @@ You have a *Raspberry Pi 3 Model B+*
 
 * Raspbian
 
-Linux operating system made for the Raspberry Pi.
+Linux operating system version (distribution) made for the Raspberry Pi.
 
 [[./img/app_icons.png]]
 
@@ -132,6 +132,206 @@ You can interact with your Raspberry Pi directly with text commands. Type a comm
 
 [[./img/apps/terminal_screenshot.jpg]]
 
+** Add/Remove Software
+
+Thousands of software packages are available for free (no ads, etc.) from the internet. Go to Preferences -> Add/Remove Software.
+
+[[./img/apps/software_manager_screenshot.jpg]]
+
+
+* Gimp
+
+Similar to Adobe Photoshop. Pixel-based image editor with layers and effects.
+
+[[./img/icons/128x128/gimp.png]] 
+
+[[./img/apps/gimp_screenshot.jpg]] 
+
+** Concepts
+
+*** Pixels
+
+- Grid of color cells, all the same size
+- More pixels = more detail (higher resolution)
+
+*** Transparency (Opacity/Alpha)
+
+- RGB + Alpha = RGBA
+- Use Layer -> Transparency -> Add Alpha Channel
+- Use Delete key or eraser tool
+
+*** Layers
+
+- Drawn from top to bottom
+- Upper layers hide lower layers, except transparent regions
+- Opacity = Transparency
+- Try different Modes with more than one layer
+
+*** Saving vs. Exporting
+
+- Save uses Gimp format with layers, etc. for editing later
+- Export makes a PNG or JPEG for sharing
+
+** Screenshots
+
+- File -> Create -> Screenshot
+
+* Inkscape
+
+Similar to Adobe Illustrator. Vector-based image editor with layers and shapes.
+
+[[./img/icons/128x128/inkscape.png]] 
+
+[[./img/apps/inkscape_screenshot.jpg]] 
+
+** Concepts
+
+*** Vector Graphics (SVG)
+
+- Describes geometric shapes, not a pixel grid
+- Can be scaled to arbitrary sizes without pixelation
+- Path = points connected by (maybe curvy) lines
+
+*** Layers and Groups
+
+- Layers are drawn from top to bottom
+- Upper layers hide lower layers, except empty regions
+- Shape groups move and change colors together
+- Use Object -> Group and Object -> Ungroup
+
+*** Dots Per Inch (DPI)
+
+- Resolution (size) of exported pixel grid image
+- Higher = better picture, bigger file
+
+* MuseScore
+
+Similar to Finale. Music score editor for MIDI files.
+
+- Sample songs (MIDI) are in =/home/pi/Music=
+- Handbook is available in =/home/pi/Documents=
+
+[[./img/icons/128x128/mscore.png]] 
+
+[[./img/apps/musescore_screenshot.jpg]] 
+
+** Concepts
+
+*** Notes and Sound
+
+- Middle "A" = 440 Hz
+- Notes are labeled A-G, with sharps (♯) and flats (♭)
+- Higher notes (up on staff, right on keyboard) are higher pitched
+- Note fill and stem determine duration
+
+[[./img/music_notes.png]] 
+
+*** Exporting to WAV
+
+- File -> Export and choose Wave Audio
+- Play with VLC
+- Edit with Audacity
+- Import into Pitivi
+
+* Audacity
+
+Edit audio (WAV) files with tracks and effects.
+
+[[./img/icons/128x128/audacity.png]] 
+
+[[./img/apps/audacity_screenshot.jpg]] 
+
+** Concepts
+
+*** Sound Waves
+
+- All sound is air bumping into air, bumping into ears
+- Frequency = pitch
+- Amplitude = volume
+
+*** Stereo vs. Mono
+
+- Stereo = different sounds per ear
+- Mono = same sound in both ears
+
+*** Tracks
+
+- Layers of sound over time
+- Combined tracks = final song/sample/etc.
+
+* VLC
+
+Plays and converts audio and video files.
+
+[[./img/icons/128x128/vlc.png]] 
+
+[[./img/apps/vlc_screenshot.jpg]] 
+
+
+** Concepts
+
+*** File Formats
+
+- Movie = video track + audio track(s) + subtitle track(s)
+- Song = audio track(s) + lyric track(s)
+- Use Media -> Convert/Save to change format or extract audio/video
+
+* Synfig Studio
+
+Create 2-D animations with layers and keyframes.
+
+[[./img/icons/128x128/synfig.png]] 
+
+[[./img/apps/synfig_screenshot.jpg]] 
+
+
+** Concepts
+
+*** Keyframes
+
+- Critical moments in an animation
+- Blending occurs *between* keyframes
+
+*** Joints and Skeletal Models
+
+- Models can have "bones" to constrain movement
+- Makes animating easier
+
+*** TODO Rendering
+
+* Pitivi
+
+Create videos from media clips with tracks and effects.
+
+[[./img/icons/128x128/pitivi.png]] 
+
+[[./img/apps/pitivi_screenshot.jpg]] 
+
+** Concepts
+
+*** TODO Video and Audio Tracks
+
+*** TODO Video/Audio Effects
+
+- Uses keyframes
+
+*** TODO Rendering
+
+* Sonic Pi
+
+Create music tracks with samples, loops, and code.
+
+[[./img/icons/128x128/sonic-pi.png]] 
+
+[[./img/apps/sonic_pi_screenshot.jpg]] 
+
+** Concepts
+
+*** TODO Music as a Program
+
+*** TODO Threading
+
+*** TODO Samples, Synthesizers, and Effects
 
 * WS2801 RGB LED Strip
 
@@ -214,112 +414,11 @@ led-on red 0.5 white 0.5 blue 0.5 black
 - Click File -> Save in the menu to save the "movie" as an image
 - Click File -> Open in the menu to open an image and play it back
 
-* Gimp
+* Making Your Own Movie
 
-Similar to Adobe Photoshop. Pixel-based image editor with layers and effects.
-
-[[./img/icons/128x128/gimp.png]] 
-
-[[./img/apps/gimp_screenshot.jpg]] 
-
-** Concepts
-
-*** Pixels
-
-- Grid of color cells, all the same size
-- More pixels = more detail (higher resolution)
-
-*** Transparency (Opacity/Alpha)
-
-- RGB + Alpha = RGBA
-- Use Layer -> Transparency -> Add Alpha Channel
-- Use Delete key or eraser tool
-
-*** Layers
-
-- Drawn from top to bottom
-- Upper layers hide lower layers, except transparent regions
-- Opacity = Transparency
-- Try different Modes with more than one layer
-
-*** Saving vs. Exporting
-
-- Save uses Gimp format with layers, etc. for editing later
-- Export makes a PNG or JPEG for sharing
-
-** Screenshots
-
-- File -> Create -> Screenshot
-
-* Inkscape
-
-Similar to Adobe Illustrator. Vector-based image editor with layers and shapes.
-
-[[./img/icons/128x128/inkscape.png]] 
-
-[[./img/apps/inkscape_screenshot.jpg]] 
-
-* MuseScore
-
-Similar to Finale. Music score editor for MIDI files.
-
-- Sample songs (MIDI) are in =/home/pi/Music=
-- Handbook is available in =/home/pi/Documents=
-
-[[./img/icons/128x128/mscore.png]] 
-
-[[./img/apps/musescore_screenshot.jpg]] 
-
-** Concepts
-
-*** Notes and Sound
-
-- Middle "C" = 440 Hz
-- Notes are labeled A-G, with sharps (♯) and flats (♭)
-- Higher notes (up on staff, right on keyboard) are higher pitched
-- Note fill and stem determine duration
-
-[[./img/music_notes.png]] 
-
-*** Exporting to WAV
-
-- File -> Export and choose Wave Audio
-- Play with VLC
-- Edit with Audacity
-- Import into Pitivi
-
-* Audacity
-
-Edit audio (WAV) files with tracks and effects.
-
-[[./img/icons/128x128/audacity.png]] 
-
-* VLC
-
-Plays and converts audio and video files.
-
-[[./img/icons/128x128/vlc.png]] 
-
-* Pitivi
-
-Create videos from media clips with tracks and effects.
-
-[[./img/icons/128x128/pitivi.png]] 
-
-* Synfig Studio
-
-Create 2-D animations with layers and keyframes.
-
-[[./img/icons/128x128/synfig.png]] 
-
-* Sonic Pi
-
-Create music tracks with samples, loops, and code.
-
-[[./img/icons/128x128/sonic-pi.png]] 
-
-
-* Project
+- Create images in Gimp or Inkscape
+- Create music in MuseScore or Sonic Pi
+- Use Synfig or Pitivi to create a movie
 
 [[./img/app_workflow.png]]
 

@@ -1,24 +1,4 @@
-require 'thread'
 require './legacy.rb'
-
-# Test gamepad
-use_gamepad
-
-m = Mutex.new
-cv = ConditionVariable.new
-
-on_button :a do
-  m.synchronize do
-    cv.signal
-  end
-end
-
-# Wait until button press
-puts "Press the A button"
-m.synchronize do
-  cv.wait(m)
-end
-puts "OK"
 
 use_leds spi: false
 

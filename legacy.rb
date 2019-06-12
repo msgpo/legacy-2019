@@ -132,6 +132,27 @@ module Pixels
   # Synchronization for @pixels
   @semaphore = Mutex.new
 
+  @colors_rgb = {
+    :red => [255, 0, 0],
+    :orange => [255, 128, 0],
+    :yellow => [255, 255, 0],
+    :green => [0, 255, 0],
+    :blue => [0, 0, 255],
+    :indigo => [255, 255, 0],
+    :violet => [255, 0, 255],
+    :pink => [255, 0, 128],
+    :black => [0, 0, 0],
+    :white => [255, 255, 255]
+  }
+
+  def self.colors_rgb
+    return @colors_rgb
+  end
+
+  def self.colors
+    return @colors_rgb.keys
+  end
+
   # Connects to WS2801
   def self.use_spi
     require 'spi'
@@ -464,6 +485,10 @@ def violet (i: nil, time: 1)
   rgb 255, 0, 255, i: i, time: time
 end
 
+def pink (i: nil, time: 1)
+  rgb 255, 0, 128, i: i, time: time
+end
+
 def black (i: nil, time: 1)
   rgb 0, 0, 0, i: i, time: time
 end
@@ -479,6 +504,15 @@ def strobe (cycles, time: 0.075, r: 255, g: 255, b: 255)
     black time: 0
     doze time
   end
+end
+
+def blend (color_names, time: 1)
+  steps = time / 0.05
+  rgb = []
+  color_names.each do |c|
+    rgb += Pixels.colors_rgb[c]
+  end
+  Pixels.enqueue([:blend_rgb, [rgb], { steps: steps, wait: true }])
 end
 
 # Blend to rainbow colors
