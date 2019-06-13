@@ -97,10 +97,6 @@ def use_gamepad(&block)
         button = Gamepad.button_queue.pop()
         button_sym = Gamepad.button_map.fetch(button, nil)
         block.call(button_sym)
-
-        File.open("/home/hansenm/button_callback.txt", "w") do |f|
-          f.write("#{button_sym}")
-        end
       end
       sleep 0.05
     end
