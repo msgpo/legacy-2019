@@ -3,7 +3,6 @@
 # Date: 2019 June 12
 
 require 'thread'
-require 'json'
 
 # -----------------------------------------------------------------------------
 
@@ -167,6 +166,7 @@ module Pixels
         @spi.xfer(txdata: @pixels)
       else
         require 'httparty'
+        require 'json'
         HTTParty.post("http://localhost:5000/pixels/raw?bgr=true",
                       body: @pixels.to_json,
                       headers: { "Content-Type": "application/json" })
@@ -237,6 +237,38 @@ module Pixels
 
       all!(r, g, b)
       show
+    end
+
+    if wait then
+      thread.join
+    end
+  end
+
+  # Play image back across all LEDs
+  def self.play_image(image_path, time: nil, delay: 0.05, wait: true)
+    require 'chunky_png'
+    thread = Thread.new do
+      image = ChunkyPNG::Image.from_file(image_path)
+      if time then
+        delay = time.to_f / image.width
+      end
+
+      # Show each column
+      image.width.times do |x|
+        column = image.column(x)
+        @semaphore.synchronize do
+          @pixel_count.times do |i|
+            value = column[i]
+            i3 = i*3
+            @pixels[i3] = ChunkyPNG::Color.b(value)
+            @pixels[i3+1] = ChunkyPNG::Color.g(value)
+            @pixels[i3+2] = ChunkyPNG::Color.r(value)
+          end
+        end
+
+        show
+        sleep delay
+      end
     end
 
     if wait then
@@ -525,6 +557,11 @@ end
 def spinner (time: 1)
   steps = time / 0.05
   Pixels.enqueue([:spin, [], { steps: steps, wait: true }])
+end
+
+# Play back an image across all LEDs
+def color_sample (image_path, time: 1)
+  Pixels.enqueue([:play_image, [image_path], { time: time, wait: true }])
 end
 
 # -----------------------------------------------------------------------------
