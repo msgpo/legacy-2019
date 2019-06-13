@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import sys
 import time
 from collections import defaultdict
@@ -15,6 +14,9 @@ import webcolors
 
 # Matrix math
 import numpy as np
+
+# Image library
+from PIL import Image
 
 # Configure the count of pixels:
 PIXEL_COUNT = 32
@@ -61,9 +63,10 @@ COMMANDS = defaultdict(list)
 # ----------------------------------------------------------------------------
 
 current_command = None
+sample = False
 
 def handle_command(command):
-    global current_command
+    global current_command, sample
     if command.endswith(".") and (command[:-1] == current_command):
         current_command = None
         return
@@ -79,8 +82,20 @@ def handle_command(command):
     except ValueError:
         pass  # not a decimal
 
-    command = command.lower()
+    # Image sample
+    if sample:
+        sample = False
+        sample_path = command
+        sample_img = Image.open(sample_path)
+        for x in range(sample_img.width):
+            for y in range(sample_img.height):
+                r, g, b = sample_img.getpixel((x, y))
+                pixels.set_pixel_rgb(y, b, g, r)
+            pixels.show()
+            time.sleep(0.05)
+        return
 
+    command = command.lower()
     if command.endswith(":"):
         current_command = command[:-1]
         return
@@ -89,6 +104,8 @@ def handle_command(command):
         count = int(count)
         for i in range(count):
             handle_command(command_name)
+    elif command == "sample":
+        sample = True
     elif command in COMMANDS:
         for command_name in COMMANDS[command]:
             handle_command(command_name)

@@ -11,4 +11,4 @@ fi
 
 source "${venv}/bin/activate"
 
-python3 game_gui.py "$@"
+cd "${this_dir}" && python3 game_gui.py "$@"

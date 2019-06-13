@@ -3,6 +3,9 @@
 #+DATE: 2019-06-10
 #+OPTIONS: num:nil
 
+#+ATTR_HTML: :width 100%
+[[./img/legacy_banner.jpg]]
+
 * Free Software
 
 #+BEGIN_QUOTE
@@ -11,6 +14,8 @@ right to learn, and share what we learn with others. Free software has become
 the foundation of a learning society where we share our knowledge in a way that
 others can build upon and enjoy." - Free Software Foundation
 #+END_QUOTE
+
+[[./img/stallman.jpg]]
 
 ** Free as in Beer
 
@@ -27,6 +32,9 @@ Providing not just the end product, but many of the steps along the way.
 * The Linux Operating System
 
 - Created by Linus Torvalds in 1991
+
+[[./img/linus.jpg]]
+
 - Completely open source and freely available
 - Behind Android, Chromebook, Google/Amazon/Facebook/Microsoft/Apple servers
 
@@ -34,13 +42,17 @@ Providing not just the end product, but many of the steps along the way.
 
 - Installed from an app "store"
 - No cost, no ads, no subscriptions
-- Used by hobbiests and professionals
+- Used by hobbyists and professionals
 
 ** Truly Free System
 
 - No made-up restrictions about what you can install
 - No fees for writing/distributing your own software
-- Ways around "digital rights management" (DRM)
+- Legal ways around "digital rights management" (DRM)
+  - =youtube-dl= for downloading YouTube videos/songs
+  - =Handbrake= for ripping DVDs that you own
+  - =recordMyDesktop= for recording what's showing on your screen
+  - =pavucontrol= + Audacity for recording what's playing through your speakers
 
 * The Raspberry Pi
 
@@ -54,6 +66,11 @@ You have a *Raspberry Pi 3 Model B+*
 
 ** Hardware
 
+- About the computing power of a 3-4 year old phone
+- Only 1GB of RAM is bad for desktop use
+
+*** Specs
+
 - Quad-core 1.4 Ghz CPU
 - 1 GB of RAM
 - Power from USB micro
@@ -62,7 +79,7 @@ You have a *Raspberry Pi 3 Model B+*
 - WiFi (internet) and Bluetooth (phone)
 - 2 USB ports (keyboard/mouse/gamepad)
 - Network port (ethernet)
-- Heaphone port
+- Headphone port
 - Display/camera connectors
 
 ** General Purpose Input/Ouput (GPIO)
@@ -78,14 +95,14 @@ You have a *Raspberry Pi 3 Model B+*
 
 *** Typical Stuff
 
-- Browse the internet (Firefox)
+- Browse the internet (Chromium)
 - Play videos/music (VLC)
 - Edit documents, spreadsheets, etc. (LibreOffice)
 
 *** Digital Art
 
 - Create and edit music/video (Audacity, MuseScore, Pitivi)
-- Create and edit images (Gimp, Inkscape)
+- Create and edit images/animations (Gimp, Inkscape, Synfig)
 - Capture audio/video (Audacity, recordMyDesktop)
 - Connect to musical instruments (MIDI/USB)
  
@@ -111,10 +128,14 @@ You have a *Raspberry Pi 3 Model B+*
 
 * Raspbian
 
-Linux operating system version (distribution) made for the Raspberry Pi.
+Linux operating system version (distribution) made for the Raspberry Pi. Inlcudes a bunch of (ad-free, fully functional) apps.
 
 [[./img/app_icons.png]]
 
+
+** Logging In
+
+Your Raspberry Pi should log in automatically when it boots. If you need it, your user name is =pi= and your password is =raspberry=
 
 ** File System
 
@@ -207,6 +228,11 @@ Similar to Adobe Illustrator. Vector-based image editor with layers and shapes.
 
 - Resolution (size) of exported pixel grid image
 - Higher = better picture, bigger file
+
+*** Icons
+
+- There are a bunch of SVG files in =/home/pi/Pictures= you can use
+- There are also SVG files in =/usr/share/icons=
 
 * MuseScore
 
@@ -350,10 +376,22 @@ Create videos from media clips with tracks and effects.
 
 ** Testing the Software
 
-- Use the =led-on= and =led-off= test programs in the =bin= directory
+- Use the =led-on= and =led-off= test programs from a Terminal [[./img/terminal.png]]
 
-#+BEGIN_SRC
+#+BEGIN_SRC bash
 led-on red 0.5 white 0.5 blue 0.5 black
+#+END_SRC
+
+- You can make loops in the program by starting a name with a color (:) and ending it with a period (.)
+
+#+BEGIN_SRC bash
+led-on loop: green 0.25 red 0.25 loop. 10*loop blue
+#+END_SRC
+
+- Color samples can also be played back (recorded with Game LEDs program)
+
+#+BEGIN_SRC bash
+led-on sample /home/pi/Legacy/rainbow_sample.png
 #+END_SRC
 
 * Logitech F310 Gamepad
