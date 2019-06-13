@@ -435,6 +435,9 @@ module Pixels
   # Run animation thread
   def self.run
     if not @running
+      @pixels = [0] * 3 * @pixel_count
+      @pixel_queue = Queue.new
+
       @running = true
       @thread = Thread.new do
         while @running do

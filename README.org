@@ -20,6 +20,10 @@ Free of charge, but may be incomplete or come with strings attached.
 
 Freedom to run, copy, distribute, study, change, and improve.
 
+** Open Source
+
+Providing not just the end product, but many of the steps along the way.
+
 * The Linux Operating System
 
 - Created by Linus Torvalds in 1991
@@ -327,120 +331,6 @@ Create videos from media clips with tracks and effects.
 - Creates a video that can be shared
 - Does not include source
 
-* Sonic Pi
-
-Create music tracks with samples, loops, and code.
-
-[[./img/icons/128x128/sonic-pi.png]] 
-
-[[./img/apps/sonic_pi_screenshot.jpg]] 
-
-** Concepts
-
-*** Music as a Program
-
-#+BEGIN_SRC ruby
-# Mary had a little lamb
-with_synth :piano do
-  play :E
-  sleep 0.25
-  play :D
-  sleep 0.25
-  play :C
-  sleep 0.25
-  play :D
-  sleep 0.25
-  play :E
-  sleep 0.25
-  play :E
-  sleep 0.25
-  play :E
-  sleep 0.5
-  play :D
-  sleep 0.25
-  play :D
-  sleep 0.25
-  play :D
-  sleep 0.5
-  play :E
-  sleep 0.25
-  play :G
-  sleep 0.25
-  play :G
-  sleep 0.5
-end
-
-#+END_SRC
-
-*** Loops and Threading
-
-#+BEGIN_SRC ruby
-# Mary had a little lamb remix
-live_loop :loop1 do
-  with_synth :piano do
-    play :E
-    sleep 0.25
-    play :D
-    sleep 0.25
-    play :C
-    sleep 0.25
-    play :D
-    sleep 0.25
-    play :E
-    sleep 0.25
-    play :E
-    sleep 0.25
-    play :E
-    sleep 0.5
-    play :D
-    sleep 0.25
-    play :D
-    sleep 0.25
-    play :D
-    sleep 0.5
-    play :E
-    sleep 0.25
-    play :G
-    sleep 0.25
-    play :G
-    sleep 0.5
-  end
-end
-
-live_loop :loop2 do
-  with_synth :fm do
-    play :E
-    sleep 1
-    play :C
-    sleep 1
-    play :D
-    sleep 1
-    play :G
-    sleep 1
-  end
-end
-#+END_SRC
-
-*** Samples and Effects
-
-#+BEGIN_SRC ruby
-live_loop :sample_fx do
-  4.times do
-    sample :drum_cowbell
-    sleep 0.5
-  end
-  
-  4.times do
-    with_fx :reverb, room:1 do
-      with_fx :echo, mix: 0.3, phase: 0.5 do
-        sample :drum_cowbell
-        sleep 0.5
-      end
-    end
-  end
-end
-#+END_SRC
-
 * WS2801 RGB LED Strip
 
 - 32 Red/Green/Blue (RGB) Light Emitting Diodes (LEDs)
@@ -521,6 +411,245 @@ led-on red 0.5 white 0.5 blue 0.5 black
 - Press [[./img/buttons/Logitech.png]] to stop recording
 - Click File -> Save in the menu to save the "movie" as an image
 - Click File -> Open in the menu to open an image and play it back
+
+
+* Sonic Pi
+
+Create music tracks with samples, loops, and code.
+
+[[./img/icons/128x128/sonic-pi.png]] 
+
+[[./img/apps/sonic_pi_screenshot.jpg]] 
+
+** Concepts
+
+*** Music as a Program
+
+- Play notes by name using a synthesizer
+- You must specify delays (in seconds) between each note
+- No delay means to play things at the same time (e.g., a chord)
+
+#+BEGIN_SRC ruby
+# Mary had a little lamb
+with_synth :piano do
+  play :E
+  sleep 0.25  # Wait 1/4 second
+  play :D
+  sleep 0.25
+  play :C
+  sleep 0.25
+  play :D
+  sleep 0.25
+  play :E
+  sleep 0.25
+  play :E
+  sleep 0.25
+  play :E
+  sleep 0.5  # Wait 1/2 second
+  play :D
+  sleep 0.25
+  play :D
+  sleep 0.25
+  play :D
+  sleep 0.5
+  play :E
+  sleep 0.25
+  play :G
+  sleep 0.25
+  play :G
+  sleep 0.5
+end
+
+#+END_SRC
+
+*** Loops and Threading
+
+- The =live_loop= creates a new "thread" that independently repeats forever
+- You must provide a name for the loop
+- Use =sync= to wait for a cue and =cue= to tell everyone waiting to go ahead (once)
+
+#+BEGIN_SRC ruby
+# Mary had a little lamb remix
+live_loop :loop1 do
+  with_synth :piano do
+    play :E
+    sleep 0.25  # Wait 1/4 second
+    play :D
+    sleep 0.25
+    play :C
+    sleep 0.25
+    play :D
+    sleep 0.25
+    play :E
+    sleep 0.25
+    play :E
+    sleep 0.25
+    play :E
+    sleep 0.5  # Wait 1/2 second
+    play :D
+    sleep 0.25
+    play :D
+    sleep 0.25
+    play :D
+    sleep 0.5
+    play :E
+    sleep 0.25
+    play :G
+    sleep 0.25
+    play :G
+    sleep 0.5
+  end
+  # Cue the other loop to go ahead (once)
+  cue :other_loop
+end
+
+# Starts at the same time as :loop1
+live_loop :loop2 do
+  # Wait for cue
+  sync :other_loop
+  with_synth :fm do
+    play :E
+    sleep 1  # Wait 1 second
+    play :C
+    sleep 1
+    play :D
+    sleep 1
+    play :G
+    sleep 1
+  end
+end
+#+END_SRC
+
+*** Samples and Effects
+
+- Use =sample= to play a pre-recorded sound
+- Give a WAV file path to =sample= instead of a name to use your own samples (like ='/home/pi/Music/pbsounds/sneeze.mp3.wav'=)
+- Use =with_fx= to apply an audio effect to the code inside =do= ... =end=
+- Check the Help for all of the available effects and their parameters
+
+
+#+BEGIN_SRC ruby
+live_loop :sample_fx do
+  # Play a cowbell sound 4 times in a row
+  4.times do
+    sample :drum_cowbell
+    # Wait half a second
+    sleep 0.5
+  end
+  
+  # Play a reverb+echo cowbell sound 4 times in a row
+  4.times do
+    with_fx :reverb, room:1 do
+      with_fx :echo, mix: 0.3, phase: 0.5 do
+        sample :drum_cowbell
+        # Wait half a second
+        sleep 0.5
+      end
+    end
+  end
+end
+#+END_SRC
+
+*** LEDs and Gamepad (LEGACY)
+
+- You must =require= the LEGACY library in your code
+- Enable LED strip with =use_leds=
+- Enable Gamepad with =use_gamepad=
+- Basic color names work (=red=, =green=, etc.)
+- Try =rainbow= pattern and =spinner= animation
+- Use =color_sample= to load recording from Game LEDs program
+- Add custom code to =use_gamepad= to handle buttons (=:a=, =:b=, =:x=, =:y=, =:lb=, =:rb=, =:back=, =:start=, =:logitech=, =:lstick=, =:rstick=)
+
+#+BEGIN_SRC ruby
+# Load the LEGACY library
+require '/home/pi/Legacy/legacy.rb'
+
+# Enable LED strip
+use_leds
+
+# Set color immediately
+black time: 0
+
+# Blending basic colors (default: 1 second)
+red
+sleep 1
+orange
+sleep 1
+yellow
+sleep 1
+green
+sleep 1
+blue
+sleep 1
+indigo
+sleep 1
+violet
+sleep 1
+pink
+sleep 1
+white
+sleep 1
+
+# Enable gamepad and handle button presses.
+# Button names: :a, :b, :x, :y, :lb, :rb, :back, :start, :logitech, :lstick, :rstick
+use_gamepad do |button|
+  case button
+  when :a
+    cue :button_a
+  when :b
+    cue :button_b
+  end
+end
+
+puts "Press the A button to continue"
+sync :button_a
+
+# Patterns/animation
+rainbow
+sleep 1
+spinner time: 5
+sleep 5
+
+# Define a custom pattern
+def flag(time: 1)
+  # Must have exactly 32 colors, one for each LED top to bottom
+  colors = [
+    :blue, :white,
+    :blue, :white,
+    :blue, :white,
+    :blue, :white,
+    :blue, :blue,
+    :red, :red,
+    :white, :white,
+    :red, :red,
+    :white, :white,
+    :red, :red,
+    :white, :white,
+    :red, :red,
+    :white, :white,
+    :red, :red,
+    :white, :white,
+    :red, :red
+  ]
+  
+  blend colors, time: time
+end
+
+puts "Press the B button to continue"
+sync :button_b
+flag
+sleep 1
+
+puts "Press the A button to continue"
+sync :button_a
+
+# Load a color sample (recorded with Game LEDs program)
+color_sample '/home/pi/Legacy/flag_sample.png', time: 5
+sleep 8
+
+# Disables LED strip and gamepad
+stop_legacy
+#+END_SRC
 
 * Making Your Own Movie
 
