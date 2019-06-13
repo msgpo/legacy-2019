@@ -297,7 +297,10 @@ Create 2-D animations with layers and keyframes.
 - Models can have "bones" to constrain movement
 - Makes animating easier
 
-*** TODO Rendering
+*** Rendering
+
+- Creates a video that can be shared
+- Does not include source
 
 * Pitivi
 
@@ -309,13 +312,20 @@ Create videos from media clips with tracks and effects.
 
 ** Concepts
 
-*** TODO Video and Audio Tracks
+*** Video and Audio Tracks
 
-*** TODO Video/Audio Effects
+- Combination of image and audio layers
+- Final video will have everything combined
 
-- Uses keyframes
+*** Video/Audio Effects
 
-*** TODO Rendering
+- Uses keyframes to change brightness, volume, etc.
+- More effects = slower
+
+*** Rendering
+
+- Creates a video that can be shared
+- Does not include source
 
 * Sonic Pi
 
@@ -327,11 +337,109 @@ Create music tracks with samples, loops, and code.
 
 ** Concepts
 
-*** TODO Music as a Program
+*** Music as a Program
 
-*** TODO Threading
+#+BEGIN_SRC ruby
+# Mary had a little lamb
+with_synth :piano do
+  play :E
+  sleep 0.25
+  play :D
+  sleep 0.25
+  play :C
+  sleep 0.25
+  play :D
+  sleep 0.25
+  play :E
+  sleep 0.25
+  play :E
+  sleep 0.25
+  play :E
+  sleep 0.5
+  play :D
+  sleep 0.25
+  play :D
+  sleep 0.25
+  play :D
+  sleep 0.5
+  play :E
+  sleep 0.25
+  play :G
+  sleep 0.25
+  play :G
+  sleep 0.5
+end
 
-*** TODO Samples, Synthesizers, and Effects
+#+END_SRC
+
+*** Loops and Threading
+
+#+BEGIN_SRC ruby
+# Mary had a little lamb remix
+live_loop :loop1 do
+  with_synth :piano do
+    play :E
+    sleep 0.25
+    play :D
+    sleep 0.25
+    play :C
+    sleep 0.25
+    play :D
+    sleep 0.25
+    play :E
+    sleep 0.25
+    play :E
+    sleep 0.25
+    play :E
+    sleep 0.5
+    play :D
+    sleep 0.25
+    play :D
+    sleep 0.25
+    play :D
+    sleep 0.5
+    play :E
+    sleep 0.25
+    play :G
+    sleep 0.25
+    play :G
+    sleep 0.5
+  end
+end
+
+live_loop :loop2 do
+  with_synth :fm do
+    play :E
+    sleep 1
+    play :C
+    sleep 1
+    play :D
+    sleep 1
+    play :G
+    sleep 1
+  end
+end
+#+END_SRC
+
+*** Samples and Effects
+
+#+BEGIN_SRC ruby
+live_loop :sample_fx do
+  4.times do
+    sample :drum_cowbell
+    sleep 0.5
+  end
+  
+  4.times do
+    with_fx :reverb, room:1 do
+      with_fx :echo, mix: 0.3, phase: 0.5 do
+        sample :drum_cowbell
+        sleep 0.5
+      end
+    end
+  end
+end
+#+END_SRC
 
 * WS2801 RGB LED Strip
 
